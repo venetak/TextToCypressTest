@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "module": "system",
+      "moduleResolution": "node",
+      "preserveConstEnums": true,
+      "sourceMap": true,
+      "outDir": "./dist/"
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
+  }
