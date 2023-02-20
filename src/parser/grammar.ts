@@ -2,14 +2,14 @@
 const selectors: Selector[] = ['cy-[a-z]*'];
 const nouns: Noun[] = ['button', 'input', 'element', 'class', 'value', 'id', 'attr'];
 const verbs: Verb[] = ['click', 'type', 'select', 'focus', 'submit', 'is', 'has', 'have', 'should', 'include'];
-const determiners: Determiner[] = ['a', 'an', 'the'];
+// const determiners: Determiner[] = ['a', 'an', 'the'];
 const conjunctions: Conjunction[] = ['not', 'and'];
 const prepositions: Preposition[] = ['be', 'on', 'in', 'to'];
 
 const selectorsLength = selectors.length;
 const nounsLength = nouns.length;
 const verbsLength = verbs.length;
-const determinersLength = determiners.length;
+// const determinersLength = determiners.length;
 const conjunctionsLength = conjunctions.length;
 const prepositionsLength = prepositions.length;
 
@@ -38,8 +38,8 @@ class NounPhraseRule extends Rule {
     static variants = {
         0: () => this.getRandomNoun(),
         1: () => `cy-${this.getRandomNoun()}`,
-        // 2: () => `${this.getRandomNoun()} cy-${this.getRandomNoun()}`,
-        // 3: () => `cy-${this.getRandomNoun()} ${this.getRandomNoun()}`,
+        2: () => `${this.getRandomNoun()} cy-${this.getRandomNoun()}`,
+        3: () => `cy-${this.getRandomNoun()} ${this.getRandomNoun()}`,
     }
 
     static getRandomNoun(): string {
@@ -68,12 +68,12 @@ class SubjectRule extends Rule {
 
     static variants = {
         0: () => NounPhraseRule.generateRandom(),
-        1: () => `${this.getRandomDeterminer()} ${NounPhraseRule.generateRandom()}`,
+        // 1: () => `${this.getRandomDeterminer()} ${NounPhraseRule.generateRandom()}`,
     };
 
-    static getRandomDeterminer() {
-        return determiners[randomInt(determinersLength)];
-    }
+    // static getRandomDeterminer() {
+    //     return determiners[randomInt(determinersLength)];
+    // }
 }
 
 class VerbPhraseRule extends Rule {
@@ -93,18 +93,19 @@ class VerbPhraseRule extends Rule {
     }
 }
 
-class SentenceRule {
+class SentenceRule extends Rule {
     private verbPhrase: VerbPhraseRule;
     private subject: SubjectRule;
 
-    static generateRandom() {
-        return `${VerbPhraseRule.generateRandom()} ${SubjectRule.generateRandom()}`
+    static variants = {
+        0: () => `${VerbPhraseRule.generateRandom()} ${SubjectRule.generateRandom()}`,
+        1: () => `${SubjectRule.generateRandom()} ${VerbPhraseRule.generateRandom()}`,
     }
 }
 
 let result = '';
 
-for (let i=0; i < 40; i++) {
+for (let i=0; i < 60; i++) {
     result += SentenceRule.generateRandom() + '\n';
 }
 

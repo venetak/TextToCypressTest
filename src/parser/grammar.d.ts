@@ -7,8 +7,7 @@ type Preposition ='be' | 'on' | 'in' | 'to';
 
 type PrepositionPhrase = [Preposition, NounPhrase];
 
-type Subject =           [NounPhrase] |
-                         [Determiner, NounPhrase];
+type Subject =           [NounPhrase];
 
 type NounPhrase =        [Noun | Selector] |
                          [Noun, Selector] |
