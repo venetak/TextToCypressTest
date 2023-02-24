@@ -31,6 +31,7 @@ const suiteTemplate = (name: string, commands: string): string => `
     })
 `
 
+// TODO: remove this function
 /* eslint-disable max-lines-per-function */
 function parseTestPlan (text: string, filename: string) {
     const suites = text.split(suiteDelimiter)
