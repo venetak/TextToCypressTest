@@ -21,22 +21,22 @@ type Position = string | { x:number, y:number };
 const Actions = {
     type: {
         fn: (text: string): string => {
-            return `.type(${text})`;
+            return `.type(${text})`
         },
         hasParams: 1,
     },
     focus: {
         fn: (): string => {
-            return `.focus()`;
+            return '.focus()'
         },
         hasParams: false,
     },
     click: {
         fn: (): string => {
-            return `.click()`;
+            return '.click()'
         },
         hasParams: false,
-    }
+    },
 }
 
-module.exports = Actions;
+module.exports = Actions

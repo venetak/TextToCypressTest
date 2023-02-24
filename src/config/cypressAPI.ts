@@ -59,7 +59,7 @@ module.exports = {
         explicit: {
             expect: 'expect',
             assert: 'assert',
-        }
+        },
     },
     chai: {
         bdd: {
@@ -96,6 +96,6 @@ module.exports = {
             at: 'at',
             of: 'of',
             same: 'same',
-        }
-    }
+        },
+    },
 }
