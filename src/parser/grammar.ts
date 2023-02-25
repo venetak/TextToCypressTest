@@ -13,6 +13,8 @@ const verbsLength = verbs.length
 const conjunctionsLength = conjunctions.length
 const prepositionsLength = prepositions.length
 
+const { tokenize } = require('./tokenizer')
+
 function randomInt (max: number): number {
     return Math.floor(Math.random() * max)
 }
@@ -45,6 +47,32 @@ class NounPhraseRule extends Rule {
     static getRandomNoun (): string {
         return nouns[randomInt(nounsLength)]
     }
+
+    static isNoun(token: Noun): boolean {
+        return nouns.indexOf(token) > -1
+    }
+
+    static isSelector(token: string): boolean {
+        const match = token.match(selectors[0])
+        if (match && match.length) return true
+        return false
+    }
+
+    static isNounPhrase(phrase: string): boolean {
+        const tokens = tokenize(phrase)
+        const tokensLen = tokens.length
+
+        if (tokensLen <= 0 || tokensLen > 2) return false
+
+        const [tokenA, tokenB] = tokens
+
+        if (tokensLen === 1 && ( this.isNoun(tokenA) || this.isSelector(tokenA))) return true
+        if (this.isNoun(tokenA) && this.isSelector(tokenB)) return true
+        if (this.isNoun(tokenB) && this.isSelector(tokenA)) return true
+
+        return false
+    }
+
 }
 
 class PrepositionPhraseRule {
@@ -99,16 +127,21 @@ class SentenceRule extends Rule {
 
     static variants = {
         // 0: () => `${VerbPhraseRule.generateRandom()} ${SubjectRule.generateRandom()}`,
-        1: () => `${SubjectRule.generateRandom()} ${VerbPhraseRule.generateRandom()}`,
+        0: () => `${SubjectRule.generateRandom()} ${VerbPhraseRule.generateRandom()}`,
     }
 }
 
-let result = ``
+// let result = ``
 
-for (let i=0; i < 60; i++) {
-    result += SentenceRule.generateRandom() + '\n'
-}
+// for (let i=0; i < 60; i++) {
+//     result += SentenceRule.generateRandom() + '\n'
+// }
 
 console.log('----------------------------------------------------')
-console.log(result)
+console.log(NounPhraseRule.isNounPhrase('button cy-class'))
+console.log(NounPhraseRule.isNounPhrase('cy-class button'))
+console.log(NounPhraseRule.isNounPhrase('button'))
+console.log(NounPhraseRule.isNounPhrase('cy-buttllon'))
+console.log(NounPhraseRule.isNounPhrase('butdsdston'))
+console.log(NounPhraseRule.isNounPhrase('butdsdston sds sads'))
 console.log('----------------------------------------------------')
