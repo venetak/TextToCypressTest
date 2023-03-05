@@ -13,11 +13,11 @@ class PrepositionPhraseRule extends Rule {
         return prepositions[this.randomInt(prepositionsLength)]
     }
 
-    static  generateRandom () {
+    static generateRandom () {
         return `${this.getRandomPreposition()} ${NounPhraseRule.generateRandom()}`
     }
 
-    static isPrepositionPhrase(phrase: string): boolean {
+    static isPrepositionPhrase (phrase: string): boolean {
         return (prepositions.indexOf(<Preposition>phrase) > -1)
     }
 }

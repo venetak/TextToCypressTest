@@ -18,6 +18,8 @@ module.exports = {
         'comma-dangle': ['error', {
             'arrays': 'never',
             'objects': 'always-multiline',
+            'imports': 'always-multiline',
+            'exports': 'always-multiline',
         }],
         'max-lines-per-function': ['error', 30],
         'max-depth': ['error', 4],

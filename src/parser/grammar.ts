@@ -1,33 +1,10 @@
-/// <reference path="grammar.d.ts" />
+/// <reference path="./grammar/dictionary.d.ts" />
 
-const { tokenize } = require('./tokenizer')
-
-class VerbPhraseRule extends Rule {
-    private schema: VerbPhrase
-    private verb: Verb
-    private prepositionPhrase: PrepositionPhraseRule
-    private nounPhrase: NounPhraseRule
-
-    static variants = {
-        0: () => this.getRandomVerb(),
-        1: () => `${this.getRandomVerb()} ${NounPhraseRule.generateRandom()}`,
-        2: () => `${this.getRandomVerb()} ${NounPhraseRule.generateRandom()} ${PrepositionPhraseRule.generateRandom()}`,
-    }
-
-    static getRandomVerb () {
-        return verbs[randomInt(verbsLength)]
-    }
-}
-
-class SentenceRule extends Rule {
-    private verbPhrase: VerbPhraseRule
-    private subject: SubjectRule
-
-    static variants = {
-        // 0: () => `${VerbPhraseRule.generateRandom()} ${SubjectRule.generateRandom()}`,
-        0: () => `${SubjectRule.generateRandom()} ${VerbPhraseRule.generateRandom()}`,
-    }
-}
+import NounPhraseRule from './grammar/rules/NounPhraseRule'
+import PrepositionPhraseRule from './grammar/rules/PrepositionPhraseRule'
+import SentenceRule from './grammar/rules/SentenceRule'
+import SubjectRule from './grammar/rules/SubjectRule'
+import VerbPhraseRule from './grammar/rules/VerbPhraseRule'
 
 // let result = ``
 
@@ -35,11 +12,35 @@ class SentenceRule extends Rule {
 //     result += SentenceRule.generateRandom() + '\n'
 // }
 
-console.log('----------------------------------------------------')
+console.log('----------------------------------------------------NounPhraseRule')
 console.log(NounPhraseRule.isNounPhrase('button cy-class'))
 console.log(NounPhraseRule.isNounPhrase('cy-class button'))
 console.log(NounPhraseRule.isNounPhrase('button'))
 console.log(NounPhraseRule.isNounPhrase('cy-buttllon'))
 console.log(NounPhraseRule.isNounPhrase('butdsdston'))
 console.log(NounPhraseRule.isNounPhrase('butdsdston sds sads'))
+console.log('----------------------------------------------------')
+console.log('----------------------------------------------------PrepositionPhraseRule')
+console.log(PrepositionPhraseRule.isPrepositionPhrase('button cy-class'))
+console.log(PrepositionPhraseRule.isPrepositionPhrase('cy-class button'))
+console.log(PrepositionPhraseRule.isPrepositionPhrase('button'))
+console.log(PrepositionPhraseRule.isPrepositionPhrase('cy-buttllon'))
+console.log(PrepositionPhraseRule.isPrepositionPhrase('butdsdston'))
+console.log(PrepositionPhraseRule.isPrepositionPhrase('be'))
+console.log('----------------------------------------------------')
+console.log('----------------------------------------------------SubjectRule')
+console.log(SubjectRule.isSubject('button cy-class'))
+console.log(SubjectRule.isSubject('cy-class button'))
+console.log(SubjectRule.isSubject('button'))
+console.log(SubjectRule.isSubject('cy-buttllon'))
+console.log(SubjectRule.isSubject('butdsdston'))
+console.log(SubjectRule.isSubject('be'))
+console.log('----------------------------------------------------')
+console.log('----------------------------------------------------VerbPhraseRule')
+console.log(VerbPhraseRule.isVerbPhrase('click'))
+console.log(VerbPhraseRule.isVerbPhrase('select button'))
+console.log(VerbPhraseRule.isVerbPhrase('type button in'))
+console.log(VerbPhraseRule.isVerbPhrase('focus on cy-buttllon'))
+console.log(VerbPhraseRule.isVerbPhrase('butdsdston'))
+console.log(VerbPhraseRule.isVerbPhrase('type element in'))
 console.log('----------------------------------------------------')

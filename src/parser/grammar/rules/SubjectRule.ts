@@ -12,7 +12,7 @@ class SubjectRule extends Rule {
         // 1: () => `${this.getRandomDeterminer()} ${NounPhraseRule.generateRandom()}`,
     }
 
-    static isSubject(phrase: string) {
+    static isSubject (phrase: string) {
         return NounPhraseRule.isNounPhrase(phrase)
     }
 

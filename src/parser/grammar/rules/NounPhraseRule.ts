@@ -1,5 +1,6 @@
 import Rule from './Rule'
 import { nouns, selectors } from '../dictionary'
+import tokenize from '../../tokenizer'
 
 const selectorsLength = selectors.length
 const nounsLength = nouns.length
@@ -20,17 +21,17 @@ class NounPhraseRule extends Rule {
         return nouns[this.randomInt(nounsLength)]
     }
 
-    static isNoun(token: Noun): boolean {
+    static isNoun (token: Noun): boolean {
         return nouns.indexOf(token) > -1
     }
 
-    static isSelector(token: string): boolean {
+    static isSelector (token: string): boolean {
         const match = token.match(selectors[0])
         if (match && match.length) return true
         return false
     }
 
-    static isNounPhrase(phrase: string): boolean {
+    static isNounPhrase (phrase: string): boolean {
         const tokens = tokenize(phrase)
         const tokensLen = tokens.length
 
@@ -38,9 +39,9 @@ class NounPhraseRule extends Rule {
 
         const [tokenA, tokenB] = tokens
 
-        if (tokensLen === 1 && ( this.isNoun(tokenA) || this.isSelector(tokenA))) return true
-        if (this.isNoun(tokenA) && this.isSelector(tokenB)) return true
-        if (this.isNoun(tokenB) && this.isSelector(tokenA)) return true
+        if (tokensLen === 1 && ( this.isNoun(<Noun>tokenA) || this.isSelector(tokenA))) return true
+        if (this.isNoun(<Noun>tokenA) && this.isSelector(tokenB)) return true
+        if (this.isNoun(<Noun>tokenB) && this.isSelector(tokenA)) return true
 
         return false
     }

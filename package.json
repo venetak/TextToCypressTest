@@ -13,7 +13,8 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "watch": "tsc --watch"
   },
   "author": "",
   "license": "ISC"
