@@ -1,7 +1,7 @@
 /// <reference path="./grammar/dictionary.d.ts" />
 
 import NounPhraseRule from './grammar/rules/NounPhraseRule'
-import PrepositionPhraseRule from './grammar/rules/PrepositionPhraseRule'
+import PrepositionPhraseRule from './grammar/rules/Preposition'
 import SentenceRule from './grammar/rules/SentenceRule'
 import SubjectRule from './grammar/rules/SubjectRule'
 import VerbPhraseRule from './grammar/rules/VerbPhraseRule'

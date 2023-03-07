@@ -1,6 +1,6 @@
 import Rule from './Rule'
 import NounPhraseRule from './NounPhraseRule'
-import PrepositionPhraseRule from './PrepositionPhraseRule'
+import PrepositionPhraseRule from './Preposition'
 import tokenize from '../../tokenizer'
 
 import { verbs } from '../dictionary'
@@ -9,8 +9,8 @@ import SubjectRule from './SubjectRule'
 const verbsLength = verbs.length
 
 class VerbPhraseRule extends Rule {
-    verbPhrase: Token
-    prepositionPhrase: Token
+    verb: string
+    prepositionPhrase: PrepositionPhraseRule
     nounPhrase: Token
 
     constructor (tokens: Token[]) {
@@ -21,28 +21,6 @@ class VerbPhraseRule extends Rule {
             if (NounPhraseRule.isNoun(token) || NounPhraseRule.isNounPhrase([token]) || NounPhraseRule.isNounInstance(token)) this.nounPhrase = token
             if (PrepositionPhraseRule.isPrepositionRule([token])) this.prepositionPhrase = token
         }
-    }
-
-    static variants = {
-        0: () => this.getRandomVerb(),
-        1: () => `${this.getRandomVerb()} ${NounPhraseRule.generateRandom()}`,
-        2: () => `${this.getRandomVerb()} ${NounPhraseRule.generateRandom()} ${PrepositionPhraseRule.generateRandom()}`,
-    }
-
-    static getRandomVerb () {
-        return verbs[this.randomInt(verbsLength)]
-    }
-
-    static isVerb (token: Token) {
-        return verbs.indexOf(<Verb>token) > -1
-    }
-
-    static isVerbInstance (token: Token) {
-        return token instanceof VerbPhraseRule
-    }
-
-    static isVerbOrVerbPhrase (token: Token) {
-        return this.isVerb(token) || this.isVerbInstance(token)
     }
 
     static isVerbPhrase (tokens: Token[]): boolean {

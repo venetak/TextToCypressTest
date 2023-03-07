@@ -1,20 +1,20 @@
-type Selector = 'cy-[a-z]*';
-type Noun = 'button' | 'input' | 'element' | 'class' | 'value' | 'id' | 'attr';
-type Verb = 'click' | 'type' | 'select' | 'focus' | 'submit' | 'be' | 'is' | 'has' | 'have' | 'should' | 'include';
+type SelectorValue = 'cy-[a-z]*';
+type NounValue = 'button' | 'input' | 'element' | 'class' | 'value' | 'id' | 'attr';
+type VerbValue = 'click' | 'type' | 'select' | 'focus' | 'submit' | 'be' | 'is' | 'has' | 'have' | 'should' | 'include';
 type Determiner = 'a' | 'an' | 'the';
-type Conjunction = 'not' | 'and';
-type Preposition ='be' | 'on' | 'in' | 'to';
+type ConjunctionValue = 'not' | 'and';
+type PrepositionValue ='be' | 'on' | 'in' | 'to';
 
-type PrepositionPhrase = [Preposition, NounPhrase];
+type PrepositionPhrase = [PrepositionValue, NounPhrase];
 
 type Subject =           [NounPhrase];
 
-type NounPhrase =        [Noun | Selector] |
-                         [Noun, Selector] |
-                         [Selector, Noun];
+type NounPhrase =        [NounValue | SelectorValue] |
+                         [NounValue, SelectorValue] |
+                         [SelectorValue, NounValue];
          
-type VerbPhrase =        [Verb] |
-                         [Verb, NounPhrase] |
-                         [Verb, NounPhrase, PrepositionPhrase];
+type VerbPhrase =        [VerbValue] |
+                         [VerbValue, NounPhrase] |
+                         [VerbValue, NounPhrase, PrepositionPhrase];
 
 type Sentence =          [VerbPhrase, Subject];

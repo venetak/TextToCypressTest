@@ -1,7 +1,7 @@
 /// <reference path="./grammar/dictionary.d.ts" />
 
 import NounPhraseRule from './grammar/rules/NounPhraseRule'
-import PrepositionPhraseRule from './grammar/rules/PrepositionPhraseRule'
+import PrepositionPhraseRule from './grammar/rules/Preposition'
 import SentenceRule from './grammar/rules/SentenceRule'
 import SubjectRule from './grammar/rules/SubjectRule'
 import VerbPhraseRule from './grammar/rules/VerbPhraseRule'
@@ -17,10 +17,6 @@ class Stack {
     constructor (tokens: Token[]) {
         this.tokens = tokens
         this.items = []
-    }
-
-    top () {
-        return this.items
     }
 
     shift (word) {
@@ -62,8 +58,6 @@ class Parser {
                 this.checkForProduction(stack)
             }
         } while (i !== stackLength)
-
-        this.shiftReduce(stack)
     }
 
     parse (phrase: string) {
@@ -75,12 +69,14 @@ class Parser {
 
     shiftReduce (stack: Stack) {
         if (!stack.tokens.length) {
+            console.log('------------')
             console.log(JSON.stringify(stack.items[0]))
             return
         }
         stack.shift(stack.tokens[0])
         this.checkForProduction(stack)
+        this.shiftReduce(stack)
     }
 }
 
-new Parser().parse('type button in')
+new Parser().parse('type button in input')

@@ -19,19 +19,14 @@ class SentenceRule extends Rule {
         }
     }
 
-    static variants = {
-        // 0: () => `${VerbPhraseRule.generateRandom()} ${SubjectRule.generateRandom()}`,
-        0: () => `${SubjectRule.generateRandom()} ${VerbPhraseRule.generateRandom()}`,
-    }
-
     static isSentence (tokens: Token[]) {
-        if (tokens.length <= 0 && tokens.length > 2) return false
+        if (tokens.length !== 2) return false
 
         const [tokenA, tokenB] = tokens
-        const isVerbOrVerbPhrase = VerbPhraseRule.isVerbInstance(tokenA) || VerbPhraseRule.isVerb(tokenA)
+        const isVerbOrVerbPhrase = (token) => VerbPhraseRule.isVerbInstance(token) || VerbPhraseRule.isVerb(token)
 
-        if (tokens.length === 1) return (isVerbOrVerbPhrase || NounPhraseRule.isNounPhrase([tokenA]))
-        return (VerbPhraseRule.isVerbPhrase([tokenB]) && NounPhraseRule.isNounPhrase([tokenA]))
+        return ((isVerbOrVerbPhrase(tokenA) && NounPhraseRule.isNounPhrase([tokenB]))) ||
+               ((isVerbOrVerbPhrase([tokenB]) && NounPhraseRule.isNounPhrase([tokenA])))
     }
 }
 

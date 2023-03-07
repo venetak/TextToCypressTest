@@ -12,22 +12,12 @@ class SubjectRule extends Rule {
         this.nounPhrase = token
     }
 
-    // TODO: include determiner?
-    static variants = {
-        0: () => NounPhraseRule.generateRandom(),
-        // 1: () => `${this.getRandomDeterminer()} ${NounPhraseRule.generateRandom()}`,
-    }
-
     static isSubject (tokens: Token[]) {
         if (tokens.length > 1) return false
 
         const token = tokens
         return NounPhraseRule.isNounPhrase(tokens) || token instanceof NounPhraseRule || token instanceof SubjectRule
     }
-
-    // static getRandomDeterminer() {
-    //     return determiners[randomInt(determinersLength)]
-    // }
 }
 
 export default SubjectRule
