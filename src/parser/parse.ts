@@ -1,10 +1,11 @@
 /// <reference path="./grammar/dictionary.d.ts" />
 
 import NounPhraseRule from './grammar/rules/NounPhraseRule'
-import PrepositionPhraseRule from './grammar/rules/Preposition'
+import Noun from './grammar/rules/Noun'
+import Preposition from './grammar/rules/PrepositionRule'
 import SentenceRule from './grammar/rules/SentenceRule'
-import SubjectRule from './grammar/rules/SubjectRule'
 import VerbPhraseRule from './grammar/rules/VerbPhraseRule'
+import Verb from './grammar/rules/Verb'
 import { Token } from './grammar/types'
 import tokenize from './tokenizer'
 
@@ -38,11 +39,15 @@ class Parser {
     stack: object[]
 
     hasProduction (tokens: Token[], stack) {
-        if (NounPhraseRule.isNoun(tokens[0])) return new NounPhraseRule(tokens)
+        if (Noun.isNoun(tokens[0])) return new Noun(<string>tokens[0])
+        if (NounPhraseRule.isNounPhrase(tokens)) return new NounPhraseRule(tokens)
+
+        if (Verb.isVerb(tokens[0])) return new Verb(<string>tokens[0])
         if (VerbPhraseRule.isVerbPhrase(tokens)) return new VerbPhraseRule(tokens)
-        if (PrepositionPhraseRule.isPreposition(tokens[0])) return new PrepositionPhraseRule(tokens)
-        // if (SubjectRule.isSubject(tokens)) return new SubjectRule(tokens[0])
-        if (!stack.tokens.length && SentenceRule.isSentence(tokens)) return new SentenceRule(tokens)
+
+        if (Preposition.isPreposition(tokens[0])) return new Preposition(tokens[0])
+
+        if (SentenceRule.isSentence(tokens)) return new SentenceRule(tokens)
     }
 
     checkForProduction (stack) {
@@ -53,10 +58,10 @@ class Parser {
         do {
             i += 1
             const production = this.hasProduction(stack.items.slice(beginning, i).reverse(), stack)
-            if (production) {
-                stack.reduce(beginning, i, production)
-                this.checkForProduction(stack)
-            }
+            if (!production) continue
+
+            stack.reduce(beginning, i, production)
+            this.checkForProduction(stack)
         } while (i !== stackLength)
     }
 
@@ -68,11 +73,8 @@ class Parser {
     }
 
     shiftReduce (stack: Stack) {
-        if (!stack.tokens.length) {
-            console.log('------------')
-            console.log(JSON.stringify(stack.items[0]))
-            return
-        }
+        if (!stack.tokens.length) return
+
         stack.shift(stack.tokens[0])
         this.checkForProduction(stack)
         this.shiftReduce(stack)
@@ -80,3 +82,5 @@ class Parser {
 }
 
 new Parser().parse('type button in input')
+
+

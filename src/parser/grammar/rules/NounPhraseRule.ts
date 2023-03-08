@@ -4,39 +4,28 @@ import { Token } from '../types'
 import Noun from './Noun'
 
 class NounPhraseRule extends Rule {
-    noun: Noun
-    selector: string
+    noun: Token
 
     constructor (tokens: Token[]) {
         super()
 
         for (const token of tokens) {
-            if (Noun.isNoun(token)) this.noun = <Noun>token
-            if (NounPhraseRule.isSelector(token)) this.selector = <string>token
+            // TODO: implement determiner
+            if (NounPhraseRule.isNounPhrase([token])) this.noun = token
         }
     }
 
-    static isSelector (token: Token): boolean {
-        if (typeof token !== 'string') return false
-
-        const match = (<string>token).match(selectors[0])
-        if (match && match.length) return true
-        return false
+    static isNounPhraseInstance (token: Token): boolean {
+        return token instanceof NounPhraseRule
     }
 
     static isNounPhrase (tokens: Token[]): boolean {
         const tokensLen = tokens.length
-        if (tokensLen <= 0 || tokensLen > 2) return false
+        if (!this.isCorrectLength(tokensLen, 0, 1)) return
 
-        const [tokenA, tokenB] = tokens
-
-        if (tokensLen === 1) return (Noun.isNoun(<Noun>tokenA) || this.isSelector(<string>tokenA))
-        if (Noun.isNoun(<Noun>tokenA) && this.isSelector(<string>tokenB)) return true
-        if (Noun.isNoun(<Noun>tokenA) && this.isSelector(<string>tokenA)) return true
-
-        return false
+        const [tokenA] = tokens
+        if (tokensLen === 1) return Noun.isNounInstance(tokenA)
     }
-
 }
 
 export default NounPhraseRule

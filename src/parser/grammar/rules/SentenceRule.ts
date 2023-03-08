@@ -1,8 +1,6 @@
-import tokenize from '../../tokenizer'
 import { Token } from '../types'
 import NounPhraseRule from './NounPhraseRule'
 import Rule from './Rule'
-import SubjectRule from './SubjectRule'
 import VerbPhraseRule from './VerbPhraseRule'
 
 class SentenceRule extends Rule {
@@ -13,20 +11,18 @@ class SentenceRule extends Rule {
         super()
 
         for (const token of tokens) {
-            const isVerbOrVerbPhrase = VerbPhraseRule.isVerbInstance(token) || VerbPhraseRule.isVerb(token)
-            if (NounPhraseRule.isNounPhrase([token])) this.subject = token
-            if (isVerbOrVerbPhrase) this.verbPhrase = token
+            if (NounPhraseRule.isNounPhraseInstance(token)) this.subject = token
+            if (VerbPhraseRule.isVerbPhraseInstance(token)) this.verbPhrase = token
         }
     }
 
     static isSentence (tokens: Token[]) {
-        if (tokens.length !== 2) return false
+        const tokensLength = tokens.length
+        if (!this.isCorrectLength(tokensLength, 2, 2)) return false
 
         const [tokenA, tokenB] = tokens
-        const isVerbOrVerbPhrase = (token) => VerbPhraseRule.isVerbInstance(token) || VerbPhraseRule.isVerb(token)
-
-        return ((isVerbOrVerbPhrase(tokenA) && NounPhraseRule.isNounPhrase([tokenB]))) ||
-               ((isVerbOrVerbPhrase([tokenB]) && NounPhraseRule.isNounPhrase([tokenA])))
+        return (VerbPhraseRule.isVerbPhraseInstance(tokenA) && NounPhraseRule.isNounPhraseInstance(tokenB)) ||
+               (VerbPhraseRule.isVerbPhraseInstance(tokenB) && NounPhraseRule.isNounPhraseInstance(tokenA))
     }
 }
 

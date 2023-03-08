@@ -13,6 +13,10 @@ class Noun extends Rule {
     static isNoun (token: Token) {
         return nouns.indexOf(<NounValue>token) > -1
     }
+
+    static isNounInstance (token: Token) {
+        return token instanceof Noun
+    }
 }
 
 export default Noun

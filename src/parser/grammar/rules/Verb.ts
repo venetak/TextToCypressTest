@@ -13,6 +13,10 @@ class Verb extends Rule {
     static isVerb (token: Token) {
         return verbs.indexOf(<VerbValue>token) > -1
     }
+
+    static isVerbInstance (token: Token) {
+        return token instanceof Verb
+    }
 }
 
 export default Verb
