@@ -78,7 +78,7 @@ class Parser {
 
     shiftReduce (stack: Stack) {
         if (!stack.tokens.length) {
-            console.log(JSON.stringify((<Rule>(stack.items[0])).toJSON()))
+            console.log((<Rule>(stack.items[0])).toJSON())
             return
         }
 

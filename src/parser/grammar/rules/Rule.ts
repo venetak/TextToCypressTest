@@ -19,12 +19,19 @@ class Rule {
         return Math.floor(Math.random() * max)
     }
 
-    toJSON (result = {}) {
+    toJSON (): string {
+        return JSON.stringify(this.serialize())
+    }
+
+    serialize (result = {}): object {
         const properties = Object.getOwnPropertyNames(this)
         let currentInstance = {}
-        // TODO: this is error prone; if there is no type this will fail
-        const type = properties.splice(properties.indexOf('type'), 1)[0]
-        result[this.type] = currentInstance
+
+        if (properties.length !== 1 || properties.length === 1 && !this[properties[0]].value) {
+            result[this.type] = currentInstance
+        } else {
+            result = currentInstance
+        }
 
         for (const property of properties) {
             if (property === 'type') continue
@@ -36,7 +43,7 @@ class Rule {
             }
 
             if (propertyInstance.type) {
-                result[this.type] = currentInstance = {...currentInstance, ...propertyInstance.toJSON({})}
+                result[this.type] = currentInstance = {...currentInstance, ...propertyInstance.serialize({})}
             }
         }
 
