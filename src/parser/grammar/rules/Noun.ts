@@ -7,6 +7,7 @@ class Noun extends Rule {
 
     constructor (value: string) {
         super()
+        this.type = 'Noun'
         this.value = value
     }
 

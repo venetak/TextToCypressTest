@@ -4,6 +4,7 @@ type Variant = {
 
 class Rule {
     static variants:Variant
+    type: string
 
     static isCorrectLength (tokensLength: Number, min, max) {
         return (tokensLength <= min || tokensLength > max) ? false: true

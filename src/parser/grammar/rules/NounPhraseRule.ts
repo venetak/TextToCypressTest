@@ -1,17 +1,19 @@
 import Rule from './Rule'
-import { nouns, selectors } from '../dictionary'
 import { Token } from '../types'
 import Noun from './Noun'
+import Determiner from './Determiner'
 
 class NounPhraseRule extends Rule {
     noun: Token
+    determiner: Token
 
     constructor (tokens: Token[]) {
         super()
+        this.type = 'NounPhrase'
 
         for (const token of tokens) {
-            // TODO: implement determiner
-            if (NounPhraseRule.isNounPhrase([token])) this.noun = token
+            if (NounPhraseRule.isNounPhraseInstance(token) || Noun.isNounInstance(token)) this.noun = token
+            if (Determiner.isDeterminerInstance(token)) this.determiner = token
         }
     }
 
@@ -21,10 +23,12 @@ class NounPhraseRule extends Rule {
 
     static isNounPhrase (tokens: Token[]): boolean {
         const tokensLen = tokens.length
-        if (!this.isCorrectLength(tokensLen, 0, 1)) return
+        if (!this.isCorrectLength(tokensLen, 0, 2)) return
 
-        const [tokenA] = tokens
+        const [tokenA, tokenB] = tokens
         if (tokensLen === 1) return Noun.isNounInstance(tokenA)
+        return Determiner.isDeterminerInstance(tokenA) && this.isNounPhraseInstance(tokenB) ||
+               Determiner.isDeterminerInstance(tokenA) && this.isNounPhraseInstance(tokenB)
     }
 }
 

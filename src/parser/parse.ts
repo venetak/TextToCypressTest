@@ -8,6 +8,8 @@ import VerbPhraseRule from './grammar/rules/VerbPhraseRule'
 import Verb from './grammar/rules/Verb'
 import { Token } from './grammar/types'
 import tokenize from './tokenizer'
+import Determiner from './grammar/rules/Determiner'
+import Subject from './grammar/rules/Subject'
 
 declare type productionItem = Token | string;
 
@@ -39,6 +41,8 @@ class Parser {
     stack: object[]
 
     hasProduction (tokens: Token[], stack) {
+        if (Determiner.isDeterminer(tokens[0])) return new Determiner(<string>tokens[0])
+
         if (Noun.isNoun(tokens[0])) return new Noun(<string>tokens[0])
         if (NounPhraseRule.isNounPhrase(tokens)) return new NounPhraseRule(tokens)
 
@@ -47,7 +51,8 @@ class Parser {
 
         if (Preposition.isPreposition(tokens[0])) return new Preposition(tokens[0])
 
-        if (SentenceRule.isSentence(tokens)) return new SentenceRule(tokens)
+        // if (Subject.isSubject(tokens[0])) return new Subject(<NounPhraseRule>tokens[0])
+        if (!stack.tokens.length && SentenceRule.isSentence(tokens)) return new SentenceRule(tokens)
     }
 
     checkForProduction (stack) {
@@ -73,7 +78,10 @@ class Parser {
     }
 
     shiftReduce (stack: Stack) {
-        if (!stack.tokens.length) return
+        if (!stack.tokens.length) {
+            console.log(stack.items)
+            return
+        }
 
         stack.shift(stack.tokens[0])
         this.checkForProduction(stack)
@@ -81,6 +89,7 @@ class Parser {
     }
 }
 
-new Parser().parse('type button in input')
+// new Parser().parse('type button in input')
+new Parser().parse('the dog saw a man in the park')
 
 

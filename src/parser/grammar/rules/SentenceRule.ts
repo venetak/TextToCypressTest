@@ -2,6 +2,7 @@ import { Token } from '../types'
 import NounPhraseRule from './NounPhraseRule'
 import Rule from './Rule'
 import VerbPhraseRule from './VerbPhraseRule'
+import Subject from './Subject'
 
 class SentenceRule extends Rule {
     verbPhrase: Token
@@ -9,6 +10,7 @@ class SentenceRule extends Rule {
 
     constructor (tokens: Token[]) {
         super()
+        this.type = 'Sentence'
 
         for (const token of tokens) {
             if (NounPhraseRule.isNounPhraseInstance(token)) this.subject = token
@@ -18,9 +20,11 @@ class SentenceRule extends Rule {
 
     static isSentence (tokens: Token[]) {
         const tokensLength = tokens.length
-        if (!this.isCorrectLength(tokensLength, 2, 2)) return false
+        if (!this.isCorrectLength(tokensLength, 1, 2)) return false
 
         const [tokenA, tokenB] = tokens
+        // return (VerbPhraseRule.isVerbPhraseInstance(tokenA) && Subject.isSubjectInstance(tokenB)) ||
+        //        (VerbPhraseRule.isVerbPhraseInstance(tokenB) && Subject.isSubjectInstance(tokenA))
         return (VerbPhraseRule.isVerbPhraseInstance(tokenA) && NounPhraseRule.isNounPhraseInstance(tokenB)) ||
                (VerbPhraseRule.isVerbPhraseInstance(tokenB) && NounPhraseRule.isNounPhraseInstance(tokenA))
     }

@@ -7,6 +7,7 @@ class Verb extends Rule {
 
     constructor (value: string) {
         super()
+        this.type = 'Verb'
         this.value = value
     }
 

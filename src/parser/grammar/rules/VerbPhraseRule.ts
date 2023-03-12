@@ -13,6 +13,7 @@ class VerbPhraseRule extends Rule {
 
     constructor (tokens: Token[]) {
         super()
+        this.type = 'VerbPhrase'
 
         for (const token of tokens) {
             if (Preposition.isPrepositionInstance(token)) this.preposition = token
@@ -34,13 +35,14 @@ class VerbPhraseRule extends Rule {
 
         if (tokensLen === 2) {
             return (Verb.isVerbInstance(tokenA))       && NounPhraseRule.isNounPhraseInstance(tokenB)        ||
-                   (Verb.isVerbInstance(tokenA))       && Preposition.isPrepositionInstance(tokenB)          ||
+                   (Verb.isVerbInstance(tokenB))       && NounPhraseRule.isNounPhraseInstance(tokenA)        ||
                    (this.isVerbPhraseInstance(tokenA)) && NounPhraseRule.isNounPhraseInstance(tokenB)        ||
-                   (this.isVerbPhraseInstance(tokenA)) && Preposition.isPrepositionInstance(tokenB)
+                   (this.isVerbPhraseInstance(tokenB)) && NounPhraseRule.isNounPhraseInstance(tokenA)
         }
 
         return (Verb.isVerbInstance(tokenA)       && NounPhraseRule.isNounPhraseInstance(tokenB) && Preposition.isPrepositionInstance(tokenC)) ||
-               (this.isVerbPhraseInstance(tokenA) && NounPhraseRule.isNounPhraseInstance(tokenB) && Preposition.isPrepositionInstance(tokenC))
+               (this.isVerbPhraseInstance(tokenA) && NounPhraseRule.isNounPhraseInstance(tokenB) && Preposition.isPrepositionInstance(tokenC)) ||
+               (this.isVerbPhraseInstance(tokenA) && Preposition.isPrepositionInstance(tokenB)   && NounPhraseRule.isNounPhraseInstance(tokenC))
     }
 }
 

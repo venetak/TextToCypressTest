@@ -10,6 +10,7 @@ class Preposition extends Rule {
 
     constructor (token: Token) {
         super()
+        this.type = 'Preposition'
         // TODO: include noun phrase?
         this.preposition = <PrepositionValue>token
     }
