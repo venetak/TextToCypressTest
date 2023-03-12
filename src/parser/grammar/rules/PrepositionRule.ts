@@ -6,13 +6,13 @@ import { Token } from '../types'
 const prepositionsLength = prepositions.length
 
 class Preposition extends Rule {
-    preposition: Token
+    value: Token
 
     constructor (token: Token) {
         super()
         this.type = 'Preposition'
         // TODO: include noun phrase?
-        this.preposition = <PrepositionValue>token
+        this.value = <PrepositionValue>token
     }
 
     static isPreposition (token: Token): boolean {

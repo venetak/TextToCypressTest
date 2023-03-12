@@ -20,9 +20,10 @@ class SentenceRule extends Rule {
 
     static isSentence (tokens: Token[]) {
         const tokensLength = tokens.length
-        if (!this.isCorrectLength(tokensLength, 1, 2)) return false
-
+        if (!this.isCorrectLength(tokensLength, 0, 2)) return false
         const [tokenA, tokenB] = tokens
+        
+        if (tokensLength === 1) return VerbPhraseRule.isVerbPhraseInstance(tokenA)
         // return (VerbPhraseRule.isVerbPhraseInstance(tokenA) && Subject.isSubjectInstance(tokenB)) ||
         //        (VerbPhraseRule.isVerbPhraseInstance(tokenB) && Subject.isSubjectInstance(tokenA))
         return (VerbPhraseRule.isVerbPhraseInstance(tokenA) && NounPhraseRule.isNounPhraseInstance(tokenB)) ||

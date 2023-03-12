@@ -10,12 +10,11 @@ import { Token } from './grammar/types'
 import tokenize from './tokenizer'
 import Determiner from './grammar/rules/Determiner'
 import Subject from './grammar/rules/Subject'
-
-declare type productionItem = Token | string;
+import Rule from './grammar/rules/Rule'
 
 class Stack {
     tokens: Token[]
-    items: productionItem[]
+    items: Token[]
 
     constructor (tokens: Token[]) {
         this.tokens = tokens
@@ -79,7 +78,7 @@ class Parser {
 
     shiftReduce (stack: Stack) {
         if (!stack.tokens.length) {
-            console.log(stack.items)
+            console.log(JSON.stringify((<Rule>(stack.items[0])).toJSON()))
             return
         }
 
@@ -91,5 +90,6 @@ class Parser {
 
 // new Parser().parse('type button in input')
 new Parser().parse('the dog saw a man in the park')
+// new Parser().parse('the dog saw')
 
 
