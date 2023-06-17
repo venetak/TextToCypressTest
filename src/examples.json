@@ -1,0 +1,44 @@
+Click on button
+{
+    "VerbPhrase": {
+        "verb": "Click",
+        "preposition": "on",
+        "noun": "button"
+    }
+}
+
+Button should be visible
+"Predicate": {
+    "VerbPhrase": {
+        "noun": "Button",
+        "ModalVerbPhrase": {
+            "modalVerb":"
+should","verb":"be"}},"adverb":"visible"}}
+
+Type hello in input
+{
+    "VerbPhrase": {
+        "VerbPhrase": {
+            "verb": "Type",
+            "noun": "hello"
+        },
+        "preposition":"in
+","noun":"input"}}
+
+
+Button value should be something
+{
+    "VerbPhrase": {
+        "VerbPhrase": {
+            "noun": "Button",
+            "VerbPhrase": {
+                "noun": "value",
+                "ModalVerbPhrase": {
+                    "modalVerb": "should",
+                    "verb": "be"
+                }
+            }
+        },
+        "noun": "something"
+    }
+}
