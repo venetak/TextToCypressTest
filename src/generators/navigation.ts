@@ -4,7 +4,7 @@ const Navigation = {
             return `.visit(${address})`;
         },
         hasParams: 1,
-    }
-}
+    },
+};
 
-module.exports = Navigation;
+export default Navigation;

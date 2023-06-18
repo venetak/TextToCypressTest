@@ -1,9 +1,9 @@
-const actions = require('./actions');
-const navigation = require('./navigation');
-const queries = require('./queries');
+import actions from './actions';
+import navigation from './navigation';
+import queries from './queries';
 
-module.exports = {
-    ...actions,
-    ...navigation,
-    ...queries,
-}
+export {
+    actions,
+    navigation,
+    queries,
+};

@@ -1,4 +1,4 @@
-module.exports = {
+const CypressAPI = {
     querying: {
         get: 'get',
         contains: 'contains',
@@ -59,7 +59,7 @@ module.exports = {
         explicit: {
             expect: 'expect',
             assert: 'assert',
-        }
+        },
     },
     chai: {
         bdd: {
@@ -96,6 +96,8 @@ module.exports = {
             at: 'at',
             of: 'of',
             same: 'same',
-        }
-    }
-}
+        },
+    },
+};
+
+export default CypressAPI;

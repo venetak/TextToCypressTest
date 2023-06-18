@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     'go to': 'visit',
     'open': 'visit',
     'open page': 'visit',

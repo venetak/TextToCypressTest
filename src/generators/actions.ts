@@ -36,7 +36,13 @@ const Actions = {
             return `.click()`;
         },
         hasParams: false,
-    }
-}
+    },
+    open: {
+        fn: (address: string):string => {
+            return `cy.visit(${address})`;
+        },
+        hasParams: 1,
+    },
+};
 
-module.exports = Actions;
+export default Actions;
