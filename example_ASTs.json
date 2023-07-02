@@ -1,0 +1,83 @@
+// Click cyinput
+// simple VerbPhrase
+{
+  "VerbPhrase": {
+    "verb": "click",
+    "noun": "cyinput"
+  }
+}
+// Click on cyinput
+// with preposition
+// preposition should be ignored by the interpreter
+{
+  "VerbPhrase": {
+    "verb": "click",
+    "preposition": "on",
+    "noun": "cyinput"
+  }
+}
+// Click on button cyinput
+// VerbPhrase with 2 nouns
+// deepest noun should be ignored and treated as complement
+{
+  "VerbPhrase": {
+    "VerbPhrase": {
+      "verb": "click",
+      "preposition": "on",
+      "noun": "button"
+    },
+    "noun": "cyinput"
+  }
+}
+
+// Button should be input
+{
+  "VerbPhrase": {
+    "VerbPhrase": {
+      "noun": "Button",
+      "ModalVerbPhrase": {
+        "modalVerb": "should",
+        "verb": "be"
+      }
+    },
+    "noun": "input"
+  }
+}
+
+// cyinput value should be localhost
+// ModalVerb
+// first level noun is subject
+// outermost level noun is assert value
+// middle level noun is the subject's property that should be checked
+// modal verb is the assertion
+{
+  "VerbPhrase": {
+    "VerbPhrase": {
+      "noun": "cyinput",
+      "VerbPhrase": {
+        "noun": "value",
+        "ModalVerbPhrase": {
+          "modalVerb": "should",
+          "verb": "be"
+        }
+      }
+    },
+    "noun": "localhost"
+  }
+}
+// cyinput should be visible
+// Predicate
+// same as Modal verb, just here it is certain that
+// there is an adverb that will be used for the assertion
+{
+  "Predicate": {
+    "VerbPhrase": {
+      "noun": "button",
+      "ModalVerbPhrase": {
+        "modalVerb": "should",
+        "verb": "be"
+      }
+    },
+    "adverb": "visible"
+  }
+}
