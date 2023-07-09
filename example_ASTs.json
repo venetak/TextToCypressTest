@@ -1,5 +1,6 @@
 // Click cyinput
 // simple VerbPhrase
+// ---------------SimpleVerbPhraseData
 {
   "VerbPhrase": {
     "verb": "click",
@@ -9,6 +10,7 @@
 // Click on cyinput
 // with preposition
 // preposition should be ignored by the interpreter
+// --------------SimpleVerbPhraseData
 {
   "VerbPhrase": {
     "verb": "click",
@@ -19,6 +21,7 @@
 // Click on button cyinput
 // VerbPhrase with 2 nouns
 // deepest noun should be ignored and treated as complement
+// --------------NestedVerbPhraseData
 {
   "VerbPhrase": {
     "VerbPhrase": {
@@ -31,6 +34,7 @@
 }
 
 // Button should be input
+// -------------NestedModalPhraseData
 {
   "VerbPhrase": {
     "VerbPhrase": {
@@ -50,12 +54,14 @@
 // outermost level noun is assert value
 // middle level noun is the subject's property that should be checked
 // modal verb is the assertion
+// -----------------CompoundVerbPhraseData
 {
   "VerbPhrase": {
     "VerbPhrase": {
       "noun": "cyinput",
       "VerbPhrase": {
         "noun": "value",
+        // ModalVerbPhraseData
         "ModalVerbPhrase": {
           "modalVerb": "should",
           "verb": "be"
@@ -69,6 +75,7 @@
 // Predicate
 // same as Modal verb, just here it is certain that
 // there is an adverb that will be used for the assertion
+// --------------PredicatePhraseData
 {
   "Predicate": {
     "VerbPhrase": {
