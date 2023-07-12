@@ -4,39 +4,41 @@ import {
     SimpleVerbPhraseData,
     ModalVerbPhraseData,
     NestedVerbPhraseData,
-    NestedModalPhraseData,
     CompoundVerbPhraseData,
     PredicatePhraseData,
     ASTNode,
     NodeData,
+    CompoundModalVerbPhraseData,
+    NestedModalVerbPhraseData,
 } from './transpiler/nodeDataTypes';
 import NodeVisitor from './transpiler/nodeVisitor';
-import { SimpleVerbPhrase } from './transpiler/nodes';
+import { 
+    SimpleVerbPhrase,
+    // ModalVerbPhrase,
+    NestedVerbPhrase,
+    NestedModalVerbPhrase,
+    CompoundModalVerbPhrase,
+    CompoundVerbPhrase,
+    Predicate,
+} from './transpiler/nodes';
 import astVisitor from './transpiler/astVisitor';
 
 type AST = {
     [key: string]: ASTNode;
 };
 
-function isSimpleVerbPhraseData (ast: NodeData): boolean {
-    return 'verb' in ast && 'noun' in ast;
-}
-
-function isModalVerbPhraseData (ast: NodeData): boolean {
-    return 'modalVerb' in ast && 'verb' in ast;
-}
-
-function isNestedVerbPhraseData (ast: NodeData): boolean {
-    return 'VerbPhrase' in ast && 'noun' in ast && isSimpleVerbPhraseData(<SimpleVerbPhraseData>(ast['VerbPhrase']));
-}
-// TODO: finish for rest
-
 function generateElement (ast: NodeData) {
-    if (isSimpleVerbPhraseData(ast)) return new SimpleVerbPhrase(<SimpleVerbPhraseData>ast);
-    // TODO: same for other types
+    // TODO: can this explicit check be avoided>
+    if (SimpleVerbPhrase.isSimpleVerbPhrase(ast)) return new SimpleVerbPhrase(<SimpleVerbPhraseData>ast);
+    // if (ModalVerbPhrase.isModalVerbPhrase(ast)) return new ModalVerbPhrase(<ModalVerbPhraseData>ast);
+    if (NestedVerbPhrase.isNestedVerbPhrase(ast)) return new NestedVerbPhrase(<NestedVerbPhraseData>ast);
+    if (NestedModalVerbPhrase.isNestedModalVerbPhrase(ast)) return new NestedModalVerbPhrase(<NestedModalVerbPhraseData>ast);
+    if (CompoundModalVerbPhrase.isCompoundModalVerbPhrase(ast)) return new CompoundModalVerbPhrase(<CompoundModalVerbPhraseData>ast);
+    // if (CompoundVerbPhrase.isCompoundVerbPhrase(ast)) return new CompoundVerbPhrase(<CompoundVerbPhraseData>ast);
 }
 
-function traverse (ast: NodeData) {
+// TODO: pass composite
+function traverse (ast: any) {
     const element = generateElement(ast);
     return element.accept(astVisitor);
     // recursively loop ast

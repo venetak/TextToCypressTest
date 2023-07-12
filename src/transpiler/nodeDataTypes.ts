@@ -1,3 +1,6 @@
+// TODO: rename to tree data
+// and tree visitor
+
 import NodeVisitor from './nodeVisitor';
 
 interface SimpleVerbPhraseData {
@@ -15,7 +18,7 @@ interface NestedVerbPhraseData {
     VerbPhrase: SimpleVerbPhraseData,
 }
 
-interface NestedModalPhraseData {
+interface NestedModalVerbPhraseData {
     noun: string
     ModalVerbPhrase: ModalVerbPhraseData,
 }
@@ -30,18 +33,20 @@ interface CompoundModalVerbPhraseData {
 
 interface CompoundVerbPhraseData {
     VerbPhrase: {
+        VerbPhrase: {
+            VerbPhrase: CompoundModalVerbPhraseData,
+            noun: string,
+        },
         noun: string,
-        VerbPhrase: NestedModalPhraseData
-    },
-    noun: string,
+    }
 }
 
 interface PredicatePhraseData {
-    VerbPhrase: NestedModalPhraseData,
+    VerbPhrase: NestedModalVerbPhraseData,
     adverb: string,
 }
 
-declare type NodeData = SimpleVerbPhraseData | ModalVerbPhraseData | NestedVerbPhraseData | NestedModalPhraseData | CompoundModalPhraseData;
+declare type NodeData = SimpleVerbPhraseData | ModalVerbPhraseData | NestedVerbPhraseData | NestedModalVerbPhraseData | CompoundModalVerbPhraseData | CompoundVerbPhraseData | PredicatePhraseData;
 
 interface ASTNode {
     type: string;
@@ -53,7 +58,7 @@ export {
     SimpleVerbPhraseData,
     ModalVerbPhraseData,
     NestedVerbPhraseData,
-    NestedModalPhraseData,
+    NestedModalVerbPhraseData,
     CompoundVerbPhraseData,
     CompoundModalVerbPhraseData,
     PredicatePhraseData,

@@ -2,7 +2,7 @@ import {
     SimpleVerbPhraseData,
     ModalVerbPhraseData,
     NestedVerbPhraseData,
-    NestedModalPhraseData,
+    NestedModalVerbPhraseData,
     CompoundVerbPhraseData,
     PredicatePhraseData,
     ASTNode,
@@ -37,7 +37,8 @@ class ModalVerbPhrase implements ASTNode {
     }
 
     accept (visitor: NodeVisitor): string {
-        return visitor.visitModalVerbPhrase(this);
+        return '';
+        // return visitor.visitModalVerbPhrase(this);
     }
 
     static isModalVerbPhrase (data: NodeData): boolean {
@@ -64,20 +65,21 @@ class NestedVerbPhrase implements ASTNode {
 
 class NestedModalVerbPhrase implements ASTNode {
     type = 'NestedModalPhrase';
-    data: NestedModalPhraseData;
+    data: NestedModalVerbPhraseData;
 
-    constructor (data: NestedModalPhraseData) {
+    constructor (data: NestedModalVerbPhraseData) {
         this.data = data;
     }
 
     accept (visitor: NodeVisitor): string {
-        return visitor.visitNestedModalVerbPhrase(this);
+        return '';
+        // return visitor.visitNestedModalVerbPhrase(this);
     }
 
     static isNestedModalVerbPhrase (data: NodeData): boolean {
         return 'noun' in data
                && 'ModalVerbPhrase' in data
-               && ModalVerbPhrase.isModalVerbPhrase((<NestedModalPhraseData>data).ModalVerbPhrase);
+               && ModalVerbPhrase.isModalVerbPhrase((<NestedModalVerbPhraseData>data).ModalVerbPhrase);
     }
 }
 
@@ -109,13 +111,14 @@ class CompoundVerbPhrase implements ASTNode {
     }
 
     accept (visitor: NodeVisitor): string {
-        return visitor.visitCompoundModalVerbPhrase(this);
+        return '';
+        // return visitor.visitCompoundVerbPhrase(this);
     }
 
-    static isCompoundModalVerbPhrase (data: NodeData): boolean {
+    static isCompoundVerbPhrase (data: NodeData): boolean {
         return 'noun' in data
                && 'VerbPhrase' in data
-               && NestedVerbPhrase.isNestedVerbPhrase((<CompoundVerbPhraseData>data).VerbPhrase);
+               && CompoundModalVerbPhrase.isCompoundModalVerbPhrase((<CompoundModalVerbPhraseData>data).VerbPhrase);
     }
 }
 

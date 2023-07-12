@@ -1,6 +1,7 @@
 // Click cyinput
 // simple VerbPhrase
 // ---------------SimpleVerbPhraseData
+// cy.get('.cyinput').click()
 {
   "VerbPhrase": {
     "verb": "click",
@@ -11,6 +12,7 @@
 // with preposition
 // preposition should be ignored by the interpreter
 // --------------SimpleVerbPhraseData
+// cy.get('.cyinput').click()
 {
   "VerbPhrase": {
     "verb": "click",
@@ -22,6 +24,7 @@
 // VerbPhrase with 2 nouns
 // deepest noun should be ignored and treated as complement
 // --------------NestedVerbPhraseData
+// cy.get('button.cyinput').click()
 {
   "VerbPhrase": {
     "VerbPhrase": {
@@ -34,12 +37,13 @@
 }
 
 // Button should be input
-// -------------NestedModalPhraseData
+// -------------CompoundModalVerbPhraseData
+// cy.get('.Button').should('be.input')
 {
   "VerbPhrase": {
     "VerbPhrase": {
       "noun": "Button",
-      "ModalVerbPhrase": {
+      "ModalVerbPhrase": { // NestedModalVerbPhraseData
         "modalVerb": "should",
         "verb": "be"
       }
@@ -55,20 +59,21 @@
 // middle level noun is the subject's property that should be checked
 // modal verb is the assertion
 // -----------------CompoundVerbPhraseData
+// TODO: handle different assertions - value, be, have value etc.
+// https://docs.cypress.io/api/commands/should
+// cy.get('.cyinput').should('have.value', 'localhost')
 {
   "VerbPhrase": {
     "VerbPhrase": {
-      "noun": "cyinput",
-      "VerbPhrase": {
-        "noun": "value",
-        // ModalVerbPhraseData
+      "noun": "cyinput",  // target
+      "VerbPhrase": { // NestedModalVerbPhraseData
         "ModalVerbPhrase": {
           "modalVerb": "should",
           "verb": "be"
         }
       }
     },
-    "noun": "localhost"
+    "noun": "localhost" // complement
   }
 }
 // cyinput should be visible
@@ -76,6 +81,7 @@
 // same as Modal verb, just here it is certain that
 // there is an adverb that will be used for the assertion
 // --------------PredicatePhraseData
+// cy.get('.button').should('be.visible')
 {
   "Predicate": {
     "VerbPhrase": {
@@ -86,5 +92,25 @@
       }
     },
     "adverb": "visible"
+  }
+}
+
+// Mega compound nested verb/modal verb phrase...
+// all nouns except outer most are chainables?
+// cy.get('.button').should('have.value', 'cybutton')
+// CompoundVerbPhraseData ?
+{
+  "VerbPhrase": {
+    "VerbPhrase": {  // CompoundModalVerbPhraseData
+      "VerbPhrase": {   // CompoundModalVerbData
+        "noun": "button",
+        "ModalVerbPhrase": {
+          "modalVerb": "should",
+          "verb": "have"
+        }
+      },
+      "noun": "value"
+    },
+    "noun": "cybutton"
   }
 }
