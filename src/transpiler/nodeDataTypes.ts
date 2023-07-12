@@ -36,12 +36,12 @@ interface CompoundVerbPhraseData {
     noun: string,
 }
 
-interface Predicate {
+interface PredicatePhraseData {
     VerbPhrase: NestedModalVerbPhraseData,
     adverb: string,
 }
 
-declare type NodeData = SimpleVerbPhraseData | ModalVerbPhraseData | NestedVerbPhraseData | NestedModalVerbPhraseData | CompoundModalVerbPhraseData | CompoundVerbPhraseData | Predicate;
+declare type NodeData = SimpleVerbPhraseData | ModalVerbPhraseData | NestedVerbPhraseData | NestedModalVerbPhraseData | CompoundModalVerbPhraseData | CompoundVerbPhraseData | PredicatePhraseData;
 
 interface ASTNode {
     type: string;
@@ -56,7 +56,7 @@ export {
     NestedModalVerbPhraseData,
     CompoundVerbPhraseData,
     CompoundModalVerbPhraseData,
-    Predicate,
+    PredicatePhraseData,
     ASTNode,
     NodeData,
 };
