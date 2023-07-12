@@ -59,7 +59,9 @@ class NestedVerbPhrase implements ASTNode {
     }
 
     static isNestedVerbPhrase (data: NodeData): boolean {
-        return 'noun' && 'VerbPhrase' in data && SimpleVerbPhrase.isSimpleVerbPhrase(<SimpleVerbPhraseData>(data['VerbPhrase']));
+        return 'noun'
+            && 'VerbPhrase' in data
+            && SimpleVerbPhrase.isSimpleVerbPhrase(<SimpleVerbPhraseData>(data['VerbPhrase']));
     }
 }
 
@@ -78,8 +80,8 @@ class NestedModalVerbPhrase implements ASTNode {
 
     static isNestedModalVerbPhrase (data: NodeData): boolean {
         return 'noun' in data
-               && 'ModalVerbPhrase' in data
-               && ModalVerbPhrase.isModalVerbPhrase((<NestedModalVerbPhraseData>data).ModalVerbPhrase);
+            && 'ModalVerbPhrase' in data
+            && ModalVerbPhrase.isModalVerbPhrase((<NestedModalVerbPhraseData>data).ModalVerbPhrase);
     }
 }
 
@@ -97,8 +99,8 @@ class CompoundModalVerbPhrase implements ASTNode {
 
     static isCompoundModalVerbPhrase (data: NodeData): boolean {
         return 'noun' in data
-               && 'VerbPhrase' in data
-               && NestedModalVerbPhrase.isNestedModalVerbPhrase((<CompoundModalVerbPhraseData>data).VerbPhrase);
+            && 'VerbPhrase' in data
+            && NestedModalVerbPhrase.isNestedModalVerbPhrase((<CompoundModalVerbPhraseData>data).VerbPhrase);
     }
 }
 
@@ -116,8 +118,8 @@ class CompoundVerbPhrase implements ASTNode {
 
     static isCompoundVerbPhrase (data: NodeData): boolean {
         return 'noun' in data
-               && 'VerbPhrase' in data
-               && CompoundModalVerbPhrase.isCompoundModalVerbPhrase((<CompoundModalVerbPhraseData>data).VerbPhrase);
+            && 'VerbPhrase' in data
+            && CompoundModalVerbPhrase.isCompoundModalVerbPhrase((<CompoundModalVerbPhraseData>data).VerbPhrase);
     }
 }
 
@@ -135,8 +137,8 @@ class Predicate implements ASTNode {
 
     static isPredicate (data: NodeData): boolean {
         return 'adverb' in data
-               && 'VerbPhrase' in data
-               && NestedModalVerbPhrase.isNestedModalVerbPhrase(data.VerbPhrase);
+            && 'VerbPhrase' in data
+            && NestedModalVerbPhrase.isNestedModalVerbPhrase(data.VerbPhrase);
     }
 }
 

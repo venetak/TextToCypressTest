@@ -102,5 +102,3 @@ console.log('\n\n');
 console.log('-----------------------PredicateResult------------------------------');
 console.log(PredicateResult);
 console.log('-----------------------PredicateResult------------------------------');
-
-
