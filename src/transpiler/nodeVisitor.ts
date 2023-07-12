@@ -6,7 +6,7 @@ interface NodeVisitor {
     visitNestedVerbPhrase(node: ASTNode): string
     // visitNestedModalVerbPhrase(node: ASTNode): string
     visitCompoundModalVerbPhrase(node: ASTNode): string
-    // visitCompoundVerbPhrase(node: ASTNode): string
+    visitCompoundVerbPhrase(node: ASTNode): string
     visitPredicate(node: ASTNode): string
 }
 

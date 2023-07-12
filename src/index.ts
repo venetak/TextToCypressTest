@@ -33,7 +33,7 @@ const SimpleVerbPhraseResult = traverse({
     'verb': 'click',
     'noun': 'cyinput',
 });
-
+console.log('\n\n');
 console.log('-----------------------SimpleVerbPhraseResult------------------------------');
 console.log(SimpleVerbPhraseResult);
 console.log('-----------------------SimpleVerbPhraseResult------------------------------');
@@ -49,7 +49,7 @@ const NestedVerbPhraseResult = traverse({
     'noun': 'cyinput',
 });
 
-
+console.log('\n\n');
 console.log('-----------------------NestedVerbPhraseResult------------------------------');
 console.log(NestedVerbPhraseResult);
 console.log('-----------------------NestedVerbPhraseResult------------------------------');
@@ -64,8 +64,43 @@ const CompoundModalVerbPhraseResult = traverse( {
   },
   'noun': 'input',
 });
-
+console.log('\n\n');
 console.log('-----------------------CompoundModalVerbPhraseResult------------------------------');
 console.log(CompoundModalVerbPhraseResult);
 console.log('-----------------------CompoundModalVerbPhraseResult------------------------------');
+
+const CompoundVerbPhraseResult = traverse({
+  'VerbPhrase': {  // CompoundModalVerbPhraseData
+    'VerbPhrase': {   // CompoundModalVerbData
+      'noun': 'button',
+      'ModalVerbPhrase': {
+        'modalVerb': 'should',
+        'verb': 'have',
+      },
+    },
+    'noun': 'value',
+  },
+  'noun': 'cybutton',
+});
+
+console.log('\n\n');
+console.log('-----------------------CompoundVerbPhraseResult------------------------------');
+console.log(CompoundVerbPhraseResult);
+console.log('-----------------------CompoundVerbPhraseResult------------------------------');
+
+const PredicateResult = traverse({
+  'VerbPhrase': {
+    'noun': 'button',
+    'ModalVerbPhrase': {
+      'modalVerb': 'should',
+      'verb': 'be',
+    },
+  },
+  'adverb': 'visible',
+});
+
+console.log('-----------------------PredicateResult------------------------------');
+console.log(PredicateResult);
+console.log('-----------------------PredicateResult------------------------------');
+
 

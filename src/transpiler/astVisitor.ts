@@ -18,14 +18,14 @@ interface Action {
 }
 
 // function getAction<Type, Key extends keyof Type> (obj: Type, key: Key) {
-function getAction(obj, key: string) {
+function getAction (obj, key: string) {
     const action = obj[key];
     if (!action) console.error(`Failed to find matching action for ${String(key)}!`);
 
     return action;
 };
 
-function generateFromSimpleVerbPhrase(action: Action, actionParam: string): string {
+function generateFromSimpleVerbPhrase (action: Action, actionParam: string): string {
     if (action.hasParams) return `${action.fn(actionParam)}`;
     return `${queries.contains.fn(actionParam)}${action.fn()}`;
 }
@@ -46,14 +46,15 @@ class AstVisitor implements NodeVisitor {
         if (action) return generateFromSimpleVerbPhrase(action, `.${noun}.${siblingNoun}`);
     }
 
-    // visitCompoundVerbPhrase (node: CompoundVerbPhrase): string {
-        // const { noun: complement, VerbPhrase } = node.data;
-        // const { noun: subject, ModalVerbPhrase } = VerbPhrase;
-        // const { verb, modalVerb } = ModalVerbPhrase;
+    visitCompoundVerbPhrase (node: CompoundVerbPhrase): string {
+        const { noun: complement, VerbPhrase } = node.data;
+        const { noun: assertValueSelector, VerbPhrase: innerVerbPhrase } = VerbPhrase;
+        const { noun: subject, ModalVerbPhrase: modalVerbPhrase } = innerVerbPhrase;
+        const { verb, modalVerb } = modalVerbPhrase;
 
-        // const assertion = getAction(assertions.should, verb);
-        // return queries.get.fn(subject) + assertion.fn(complement, verb);
-    // }
+        const assertion = getAction(assertions[modalVerb], verb);
+        return queries.get.fn(subject) + assertion.fn(complement, assertValueSelector);
+    }
 
     visitNestedModalVerbPhrase (node: CompoundModalVerbPhrase): string {
         return '';
@@ -64,7 +65,7 @@ class AstVisitor implements NodeVisitor {
         const { noun, ModalVerbPhrase } = VerbPhrase;
         const { modalVerb, verb } = ModalVerbPhrase;
 
-        return `${queries.get.fn(noun)}.${assertions[modalVerb][verb].fn(outerMostSibling)}}`;
+        return `${queries.get.fn(noun)}${assertions[modalVerb][verb].fn(outerMostSibling)}}`;
     }
 
     visitPredicate (node: Predicate): string {
@@ -72,7 +73,7 @@ class AstVisitor implements NodeVisitor {
         const { ModalVerbPhrase, noun } = VerbPhrase;
         const { modalVerb, verb } = ModalVerbPhrase;
 
-        return `${queries.get.fn(noun)}.${assertions[modalVerb][verb].fn(adverb)}`;
+        return `${queries.get.fn(noun)}${assertions[modalVerb][verb].fn(adverb)}`;
     }
 }
 

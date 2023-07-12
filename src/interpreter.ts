@@ -34,7 +34,8 @@ function generateElement (ast: NodeData) {
     if (NestedVerbPhrase.isNestedVerbPhrase(ast)) return new NestedVerbPhrase(<NestedVerbPhraseData>ast);
     if (NestedModalVerbPhrase.isNestedModalVerbPhrase(ast)) return new NestedModalVerbPhrase(<NestedModalVerbPhraseData>ast);
     if (CompoundModalVerbPhrase.isCompoundModalVerbPhrase(ast)) return new CompoundModalVerbPhrase(<CompoundModalVerbPhraseData>ast);
-    // if (CompoundVerbPhrase.isCompoundVerbPhrase(ast)) return new CompoundVerbPhrase(<CompoundVerbPhraseData>ast);
+    if (CompoundVerbPhrase.isCompoundVerbPhrase(ast)) return new CompoundVerbPhrase(<CompoundVerbPhraseData>ast);
+    if (Predicate.isPredicate(ast)) return new Predicate(<PredicatePhraseData>ast);
 }
 
 // TODO: pass composite

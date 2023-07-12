@@ -111,8 +111,7 @@ class CompoundVerbPhrase implements ASTNode {
     }
 
     accept (visitor: NodeVisitor): string {
-        return '';
-        // return visitor.visitCompoundVerbPhrase(this);
+        return visitor.visitCompoundVerbPhrase(this);
     }
 
     static isCompoundVerbPhrase (data: NodeData): boolean {
@@ -131,7 +130,13 @@ class Predicate implements ASTNode {
     }
 
     accept (visitor: NodeVisitor): string {
-        return visitor.visitCompoundModalVerbPhrase(this);
+        return visitor.visitPredicate(this);
+    }
+
+    static isPredicate (data: NodeData): boolean {
+        return 'adverb' in data
+               && 'VerbPhrase' in data
+               && NestedModalVerbPhrase.isNestedModalVerbPhrase(data.VerbPhrase);
     }
 }
 
