@@ -1,6 +1,6 @@
 module.exports = {
     nouns: ['hello', 'button', 'input', 'value', 'cybutton', 'localhost', 'cyinput', 'word'],
-    verbs: ['be', 'have', 'click', 'open', 'type'],
+    verbs: ['be', 'have', 'click', 'open', 'type', 'submit'],
     conjunctions: ['and'],
     prepositions: ['in', 'on'],
     determiners: ['the', 'a'],

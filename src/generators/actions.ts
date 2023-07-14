@@ -21,7 +21,7 @@ type Position = string | { x:number, y:number };
 const Actions = {
     type: {
         fn: (text: string): string => {
-            return `.type(${text})`;
+            return `.type('${text}')`;
         },
         hasParams: 1,
     },

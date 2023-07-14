@@ -45,7 +45,7 @@ class AstVisitor implements NodeVisitor {
         const { noun, verb } = VerbPhrase;
 
         const action = getAction(actions, verb);
-        if (action) return generateFromSimpleVerbPhrase(action, `.${noun}.${siblingNoun}`);
+        if (action) return generateFromSimpleVerbPhrase(action, `${noun}${siblingNoun}`);
     }
 
     visitCompoundVerbPhrase (node: CompoundVerbPhrase): string {
@@ -54,7 +54,7 @@ class AstVisitor implements NodeVisitor {
         const { noun, verb } = nestedVerbPhrase;
 
         const action = getAction(actions, verb);
-        const selector = `.${target}.${complement}`;
+        const selector = `${target}${complement}`;
 
         if (action) return generateFromSimpleVerbPhrase(action, selector, [noun]);
     }

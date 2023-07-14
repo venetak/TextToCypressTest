@@ -1,2 +1,4 @@
-click on button cy-input
-type 
+click on button cybutton
+type hello in input cyinput
+cybutton should be visible
+click button

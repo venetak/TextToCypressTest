@@ -23,98 +23,108 @@ import allowedChainables from './config/allowedChainables';
 import vocabulary from './config/vocabulary';
 import traverse from './interpreter';
 
-const text = fs.readFileSync(path.join(__dirname, '../demo/testPlan.txt'), { encoding: 'utf8' });
+function generate (testPlan: string) {
+  const commands: string[] = testPlan.split('\n');
+  const commandsAST = commands.map(command => {
+    return parser.parse(command);
+  });
+
+  const result = traverse(commandsAST);
+  console.log(result);
+}
+
+export default generate;
 
 // console.log(interpret({'VerbPhrase':{'verb':'click','preposition':'on','noun':'cybutton'}}));
 // console.log(interpret({'VerbPhrase':{'verb':'open','noun':'localhost'}}));
 
 // visitSimpleVerbPhrase
-const SimpleVerbPhraseResult = traverse({
-    'verb': 'click',
-    'noun': 'cyinput',
-});
-console.log('\n\n');
-console.log('-----------------------SimpleVerbPhraseResult------------------------------');
-console.log(SimpleVerbPhraseResult);
-console.log('-----------------------SimpleVerbPhraseResult------------------------------');
+// const SimpleVerbPhraseResult = traverse({
+//     'verb': 'click',
+//     'noun': 'cyinput',
+// });
+// console.log('\n\n');
+// console.log('-----------------------SimpleVerbPhraseResult------------------------------');
+// console.log(SimpleVerbPhraseResult);
+// console.log('-----------------------SimpleVerbPhraseResult------------------------------');
 
-// visitNestedVerbPhrase
+// // visitNestedVerbPhrase
 
-const NestedVerbPhraseResult = traverse({
-    'VerbPhrase': {
-      'verb': 'click',
-      'preposition': 'on',
-      'noun': 'button',
-    },
-    'noun': 'cyinput',
-});
+// const NestedVerbPhraseResult = traverse({
+//     'VerbPhrase': {
+//       'verb': 'click',
+//       'preposition': 'on',
+//       'noun': 'button',
+//     },
+//     'noun': 'cyinput',
+// });
 
-console.log('\n\n');
-console.log('-----------------------NestedVerbPhraseResult------------------------------');
-console.log(NestedVerbPhraseResult);
-console.log('-----------------------NestedVerbPhraseResult------------------------------');
+// console.log('\n\n');
+// console.log('-----------------------NestedVerbPhraseResult------------------------------');
+// console.log(NestedVerbPhraseResult);
+// console.log('-----------------------NestedVerbPhraseResult------------------------------');
 
-const CompoundModalVerbPhraseResult = traverse( {
-  'VerbPhrase': {
-    'noun': 'Button',
-    'ModalVerbPhrase': { // NestedModalVerbPhraseData
-      'modalVerb': 'should',
-      'verb': 'be',
-    },
-  },
-  'noun': 'input',
-});
-console.log('\n\n');
-console.log('-----------------------CompoundModalVerbPhraseResult------------------------------');
-console.log(CompoundModalVerbPhraseResult);
-console.log('-----------------------CompoundModalVerbPhraseResult------------------------------');
+// const CompoundModalVerbPhraseResult = traverse( {
+//   'VerbPhrase': {
+//     'noun': 'Button',
+//     'ModalVerbPhrase': { // NestedModalVerbPhraseData
+//       'modalVerb': 'should',
+//       'verb': 'be',
+//     },
+//   },
+//   'noun': 'input',
+// });
+// console.log('\n\n');
+// console.log('-----------------------CompoundModalVerbPhraseResult------------------------------');
+// console.log(CompoundModalVerbPhraseResult);
+// console.log('-----------------------CompoundModalVerbPhraseResult------------------------------');
 
-const NestedCompoundModalVerbPhraseResult = traverse({
-  'VerbPhrase': {  // CompoundModalVerbPhraseData
-    'VerbPhrase': {   // CompoundModalVerbData
-      'noun': 'button',
-      'ModalVerbPhrase': {
-        'modalVerb': 'should',
-        'verb': 'have',
-      },
-    },
-    'noun': 'value',
-  },
-  'noun': 'cybutton',
-});
+// const NestedCompoundModalVerbPhraseResult = traverse({
+//   'VerbPhrase': {  // CompoundModalVerbPhraseData
+//     'VerbPhrase': {   // CompoundModalVerbData
+//       'noun': 'button',
+//       'ModalVerbPhrase': {
+//         'modalVerb': 'should',
+//         'verb': 'have',
+//       },
+//     },
+//     'noun': 'value',
+//   },
+//   'noun': 'cybutton',
+// });
 
-console.log('\n\n');
-console.log('-----------------------NestedCompoundModalVerbPhraseResult------------------------------');
-console.log(NestedCompoundModalVerbPhraseResult);
-console.log('-----------------------NestedCompoundModalVerbPhraseResult------------------------------');
+// console.log('\n\n');
+// console.log('-----------------------NestedCompoundModalVerbPhraseResult------------------------------');
+// console.log(NestedCompoundModalVerbPhraseResult);
+// console.log('-----------------------NestedCompoundModalVerbPhraseResult------------------------------');
 
-const PredicateResult = traverse({
-  'VerbPhrase': {
-    'noun': 'button',
-    'ModalVerbPhrase': {
-      'modalVerb': 'should',
-      'verb': 'be',
-    },
-  },
-  'adverb': 'visible',
-});
-console.log('\n\n');
-console.log('-----------------------PredicateResult------------------------------');
-console.log(PredicateResult);
-console.log('-----------------------PredicateResult------------------------------');
+// const PredicateResult = traverse({
+//   'VerbPhrase': {
+//     'noun': 'button',
+//     'ModalVerbPhrase': {
+//       'modalVerb': 'should',
+//       'verb': 'be',
+//     },
+//   },
+//   'adverb': 'visible',
+// });
+// console.log('\n\n');
+// console.log('-----------------------PredicateResult------------------------------');
+// console.log(PredicateResult);
+// console.log('-----------------------PredicateResult------------------------------');
 
-const TestResult = traverse({
-  'VerbPhrase': {
-      'VerbPhrase': {
-          'verb': 'type',
-          'noun': 'hello',
-      },
-      'preposition': 'in',
-      'noun': 'input',
-  },
-  'noun': 'cyinput',
-});
-console.log('\n\n');
-console.log('-----------------------TestResult------------------------------');
-console.log(TestResult);
-console.log('-----------------------TestResult------------------------------');
+// const TestResult = traverse({
+//   'VerbPhrase': {
+//       'VerbPhrase': {
+//           'verb': 'type',
+//           'noun': 'hello',
+//       },
+//       'preposition': 'in',
+//       'noun': 'input',
+//   },
+//   'noun': 'cyinput',
+// });
+// console.log('\n\n');
+// console.log('-----------------------TestResult------------------------------');
+// console.log(TestResult);
+// console.log('-----------------------TestResult------------------------------');

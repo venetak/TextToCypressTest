@@ -45,9 +45,16 @@ function generateElement (ast: NodeData) {
 }
 
 // TODO: pass composite
-function traverse (ast: any) {
-    const element = generateElement(ast);
-    return element.accept(astVisitor);
+// TODO: remove any
+function traverse (asts: any[]) {
+    const generated = asts.map(ast => {
+        const readableObj = ast.toHumanReadableObject();
+        const firstKey = Object.keys(readableObj)[0];
+        const element = generateElement(readableObj[firstKey]);
+        return element.accept(astVisitor);
+    });
+
+    console.log(generated);
     // recursively loop ast
     // deduce the type of node and create a node instance
     // TODO: !! might be more accurate to call them AST types instead of node types? !!
