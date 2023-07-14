@@ -6,10 +6,12 @@ import {
     SimpleVerbPhrase,
     CompoundVerbPhrase,
     Predicate,
+    NestedCompoundModalVerbPhrase,
+    NestedCompoundVerbPhrase,
 } from './nodes';
 
 import { actions, assertions, queries } from '../generators/index';
-import { ASTNode, CompoundModalVerbPhraseData, CompoundVerbPhraseData, PredicatePhraseData } from './nodeDataTypes';
+import { ASTNode, CompoundModalVerbPhraseData, CompoundVerbPhraseData, NestedCompoundModalVerbPhraseData, PredicatePhraseData } from './nodeDataTypes';
 import { Module } from 'module';
 
 interface Action {
@@ -25,9 +27,9 @@ function getAction (obj, key: string) {
     return action;
 };
 
-function generateFromSimpleVerbPhrase (action: Action, actionParam: string): string {
-    if (action.hasParams) return `${action.fn(actionParam)}`;
-    return `${queries.contains.fn(actionParam)}${action.fn()}`;
+function generateFromSimpleVerbPhrase (action: Action, selector: string, actionParams:string[] = []): string {
+    // if (action.hasParams) return `${action.fn(selector)}`;
+    return `${queries.get.fn(selector)}${action.fn(...actionParams)}`;
 }
 
 class AstVisitor implements NodeVisitor {
@@ -48,17 +50,28 @@ class AstVisitor implements NodeVisitor {
 
     visitCompoundVerbPhrase (node: CompoundVerbPhrase): string {
         const { noun: complement, VerbPhrase } = node.data;
-        const { noun: assertValueSelector, VerbPhrase: innerVerbPhrase } = VerbPhrase;
-        const { noun: subject, ModalVerbPhrase: modalVerbPhrase } = innerVerbPhrase;
-        const { verb, modalVerb } = modalVerbPhrase;
+        const { noun: target, VerbPhrase: nestedVerbPhrase } = VerbPhrase;
+        const { noun, verb } = nestedVerbPhrase;
 
-        const assertion = getAction(assertions[modalVerb], verb);
-        return queries.get.fn(subject) + assertion.fn(complement, assertValueSelector);
+        const action = getAction(actions, verb);
+        const selector = `.${target}.${complement}`;
+
+        if (action) return generateFromSimpleVerbPhrase(action, selector, [noun]);
+    }
+
+    // empty implementations
+    visitNestedCompoundVerbPhrase (node: NestedCompoundVerbPhrase): string {
+        return '';
+    }
+
+    visitModalVerbPhrase (node: ASTNode): string {
+        return '';
     }
 
     visitNestedModalVerbPhrase (node: CompoundModalVerbPhrase): string {
         return '';
     }
+    // empty implementations
 
     visitCompoundModalVerbPhrase (node: CompoundModalVerbPhrase): string {
         const { VerbPhrase, noun: outerMostSibling } = node.data;
@@ -66,6 +79,16 @@ class AstVisitor implements NodeVisitor {
         const { modalVerb, verb } = ModalVerbPhrase;
 
         return `${queries.get.fn(noun)}${assertions[modalVerb][verb].fn(outerMostSibling)}}`;
+    }
+
+    visitNestedCompoundModalVerbPhase (node: NestedCompoundModalVerbPhrase): string {
+        const { noun: complement, VerbPhrase } = node.data;
+        const { noun: assertValueSelector, VerbPhrase: innerVerbPhrase } = VerbPhrase;
+        const { noun: subject, ModalVerbPhrase: modalVerbPhrase } = innerVerbPhrase;
+        const { verb, modalVerb } = modalVerbPhrase;
+
+        const assertion = getAction(assertions[modalVerb], verb);
+        return queries.get.fn(subject) + assertion.fn(complement, assertValueSelector);
     }
 
     visitPredicate (node: Predicate): string {

@@ -22,4 +22,9 @@ should()
 Use CompoundModalVerbPhraseData but pass this tree's outer most noun as complement
 
 
-
+# Workflow
+- pass a file?
+- pass a directory with files following pre-established naming convention?
+- read the file and parse each line using the NLP module; after that loop the parsed trees to generate code
+- how to differentiate between it()s
+- CLI support?

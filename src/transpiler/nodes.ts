@@ -8,9 +8,13 @@ import {
     ASTNode,
     NodeData,
     CompoundModalVerbPhraseData,
+    NestedCompoundModalVerbPhraseData,
+    NestedCompoundVerbPhraseData,
 } from './nodeDataTypes';
 import NodeVisitor from './nodeVisitor';
 
+
+// VerbPhrase
 class SimpleVerbPhrase implements ASTNode {
     type = 'SimpleVerbPhrase';
     data: SimpleVerbPhraseData;
@@ -25,24 +29,6 @@ class SimpleVerbPhrase implements ASTNode {
 
     static isSimpleVerbPhrase (data: NodeData): boolean {
         return 'verb' in data && 'noun' in data;
-    }
-}
-
-class ModalVerbPhrase implements ASTNode {
-    type = 'ModalVerbPhraseData';
-    data: ModalVerbPhraseData;
-
-    constructor (data: ModalVerbPhraseData) {
-        this.data = data;
-    }
-
-    accept (visitor: NodeVisitor): string {
-        return '';
-        // return visitor.visitModalVerbPhrase(this);
-    }
-
-    static isModalVerbPhrase (data: NodeData): boolean {
-        return 'modalVerb' in data && 'verb' in data;
     }
 }
 
@@ -65,6 +51,62 @@ class NestedVerbPhrase implements ASTNode {
     }
 }
 
+class CompoundVerbPhrase implements ASTNode {
+    type: 'CompoundVerbPhrase';
+    data: CompoundVerbPhraseData;
+
+    constructor (data: CompoundVerbPhraseData) {
+        this.data = data;
+    }
+
+    accept (visitor: NodeVisitor) {
+        return visitor.visitCompoundVerbPhrase(this);
+    }
+
+    static isCompoundVerbPhrase (data: NodeData): boolean {
+        return 'noun' in data
+            && 'VerbPhrase' in data
+            && NestedVerbPhrase.isNestedVerbPhrase(data.VerbPhrase);
+    }
+}
+
+class NestedCompoundVerbPhrase implements ASTNode {
+    type: 'NestedCompoundVerbPhrase';
+    data: NestedCompoundVerbPhraseData;
+
+    constructor (data: NestedCompoundVerbPhraseData) {
+        this.data = data;
+    }
+
+    accept (visitor: NodeVisitor) {
+        return visitor.visitNestedCompoundVerbPhrase(this);
+    }
+
+    static isNestedCompoundVerbPhrase (data: NodeData): boolean {
+        return 'noun' in data
+            && 'VerbPhrase' in data
+            && CompoundVerbPhrase.isCompoundVerbPhrase(data.VerbPhrase);
+    }
+}
+
+// ModalVerbPhrase
+class ModalVerbPhrase implements ASTNode {
+    type = 'ModalVerbPhraseData';
+    data: ModalVerbPhraseData;
+
+    constructor (data: ModalVerbPhraseData) {
+        this.data = data;
+    }
+
+    accept (visitor: NodeVisitor): string {
+        return '';
+        // return visitor.visitModalVerbPhrase(this);
+    }
+
+    static isModalVerbPhrase (data: NodeData): boolean {
+        return 'modalVerb' in data && 'verb' in data;
+    }
+}
 class NestedModalVerbPhrase implements ASTNode {
     type = 'NestedModalPhrase';
     data: NestedModalVerbPhraseData;
@@ -104,25 +146,26 @@ class CompoundModalVerbPhrase implements ASTNode {
     }
 }
 
-class CompoundVerbPhrase implements ASTNode {
-    type = 'CompoundVerbPhrase';
-    data: CompoundVerbPhraseData;
+class NestedCompoundModalVerbPhrase implements ASTNode {
+    type = 'NestedCompoundModalVerbPhrase';
+    data: NestedCompoundModalVerbPhraseData;
 
-    constructor (data: CompoundVerbPhraseData) {
+    constructor (data: NestedCompoundModalVerbPhraseData) {
         this.data = data;
     }
 
     accept (visitor: NodeVisitor): string {
-        return visitor.visitCompoundVerbPhrase(this);
+        return visitor.visitNestedCompoundModalVerbPhase(this);
     }
 
-    static isCompoundVerbPhrase (data: NodeData): boolean {
+    static isNestedCompoundVerbPhrase (data: NodeData): boolean {
         return 'noun' in data
             && 'VerbPhrase' in data
-            && CompoundModalVerbPhrase.isCompoundModalVerbPhrase((<CompoundModalVerbPhraseData>data).VerbPhrase);
+            && CompoundModalVerbPhrase.isCompoundModalVerbPhrase((<NestedCompoundModalVerbPhraseData>data).VerbPhrase);
     }
 }
 
+// Predicate
 class Predicate implements ASTNode {
     type = 'Predicate';
     data: PredicatePhraseData;
@@ -144,10 +187,12 @@ class Predicate implements ASTNode {
 
 export {
     SimpleVerbPhrase,
-    ModalVerbPhrase,
     NestedVerbPhrase,
+    CompoundVerbPhrase,
+    NestedCompoundVerbPhrase,
+    ModalVerbPhrase,
     NestedModalVerbPhrase,
     CompoundModalVerbPhrase,
-    CompoundVerbPhrase,
+    NestedCompoundModalVerbPhrase,
     Predicate,
 };

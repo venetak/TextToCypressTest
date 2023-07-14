@@ -101,6 +101,8 @@
 // CompoundVerbPhraseData ?
 {
   "VerbPhrase": {
+
+
     "VerbPhrase": {  // CompoundModalVerbPhraseData
       "VerbPhrase": {   // CompoundModalVerbData
         "noun": "button",
@@ -112,5 +114,26 @@
       "noun": "value"
     },
     "noun": "cybutton"
+  }
+
+  
+}
+
+// Type word hello in input cyinput
+// NestedCompoundVerbPhraseData
+{
+  "VerbPhrase": {
+      "VerbPhrase": {
+          "VerbPhrase": {
+              "VerbPhrase": {
+                  "verb": "Type",
+                  "noun": "word"
+              },
+              "noun": "hello"
+          },
+          "preposition": "in",
+          "noun": "input"
+      },
+      "noun": "cyinput"
   }
 }

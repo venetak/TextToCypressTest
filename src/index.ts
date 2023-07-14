@@ -69,7 +69,7 @@ console.log('-----------------------CompoundModalVerbPhraseResult---------------
 console.log(CompoundModalVerbPhraseResult);
 console.log('-----------------------CompoundModalVerbPhraseResult------------------------------');
 
-const CompoundVerbPhraseResult = traverse({
+const NestedCompoundModalVerbPhraseResult = traverse({
   'VerbPhrase': {  // CompoundModalVerbPhraseData
     'VerbPhrase': {   // CompoundModalVerbData
       'noun': 'button',
@@ -84,9 +84,9 @@ const CompoundVerbPhraseResult = traverse({
 });
 
 console.log('\n\n');
-console.log('-----------------------CompoundVerbPhraseResult------------------------------');
-console.log(CompoundVerbPhraseResult);
-console.log('-----------------------CompoundVerbPhraseResult------------------------------');
+console.log('-----------------------NestedCompoundModalVerbPhraseResult------------------------------');
+console.log(NestedCompoundModalVerbPhraseResult);
+console.log('-----------------------NestedCompoundModalVerbPhraseResult------------------------------');
 
 const PredicateResult = traverse({
   'VerbPhrase': {
@@ -102,3 +102,19 @@ console.log('\n\n');
 console.log('-----------------------PredicateResult------------------------------');
 console.log(PredicateResult);
 console.log('-----------------------PredicateResult------------------------------');
+
+const TestResult = traverse({
+  'VerbPhrase': {
+      'VerbPhrase': {
+          'verb': 'type',
+          'noun': 'hello',
+      },
+      'preposition': 'in',
+      'noun': 'input',
+  },
+  'noun': 'cyinput',
+});
+console.log('\n\n');
+console.log('-----------------------TestResult------------------------------');
+console.log(TestResult);
+console.log('-----------------------TestResult------------------------------');

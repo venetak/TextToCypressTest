@@ -10,6 +10,7 @@ import {
     NodeData,
     CompoundModalVerbPhraseData,
     NestedModalVerbPhraseData,
+    NestedCompoundModalVerbPhraseData,
 } from './transpiler/nodeDataTypes';
 import NodeVisitor from './transpiler/nodeVisitor';
 import { 
@@ -20,6 +21,7 @@ import {
     CompoundModalVerbPhrase,
     CompoundVerbPhrase,
     Predicate,
+    NestedCompoundModalVerbPhrase,
 } from './transpiler/nodes';
 import astVisitor from './transpiler/astVisitor';
 
@@ -29,12 +31,16 @@ type AST = {
 
 function generateElement (ast: NodeData) {
     // TODO: can this explicit check be avoided>
+    // VerbPhrase
     if (SimpleVerbPhrase.isSimpleVerbPhrase(ast)) return new SimpleVerbPhrase(<SimpleVerbPhraseData>ast);
     // if (ModalVerbPhrase.isModalVerbPhrase(ast)) return new ModalVerbPhrase(<ModalVerbPhraseData>ast);
     if (NestedVerbPhrase.isNestedVerbPhrase(ast)) return new NestedVerbPhrase(<NestedVerbPhraseData>ast);
+    if (CompoundVerbPhrase.isCompoundVerbPhrase(ast)) return new CompoundVerbPhrase(<CompoundVerbPhraseData>ast);
+
     if (NestedModalVerbPhrase.isNestedModalVerbPhrase(ast)) return new NestedModalVerbPhrase(<NestedModalVerbPhraseData>ast);
     if (CompoundModalVerbPhrase.isCompoundModalVerbPhrase(ast)) return new CompoundModalVerbPhrase(<CompoundModalVerbPhraseData>ast);
-    if (CompoundVerbPhrase.isCompoundVerbPhrase(ast)) return new CompoundVerbPhrase(<CompoundVerbPhraseData>ast);
+    if (NestedCompoundModalVerbPhrase.isNestedCompoundVerbPhrase(ast)) return new NestedCompoundModalVerbPhrase(<NestedCompoundModalVerbPhraseData>ast);
+    
     if (Predicate.isPredicate(ast)) return new Predicate(<PredicatePhraseData>ast);
 }
 
