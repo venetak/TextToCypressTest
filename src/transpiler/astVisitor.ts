@@ -27,9 +27,10 @@ function getAction (obj, key: string) {
     return action;
 };
 
-function generateFromSimpleVerbPhrase (action: Action, selector: string, actionParams:string[] = []): string {
+function generateFromSimpleVerbPhrase (action: Action, selectors: string[], actionParams:string[] = []): string {
     // if (action.hasParams) return `${action.fn(selector)}`;
-    return `${queries.get.fn(selector)}${action.fn(...actionParams)}`;
+    const [ selector, complement ] = selectors;
+    return `${queries.get.fn(selector, complement)}${action.fn(...actionParams)}`;
 }
 
 class AstVisitor implements NodeVisitor {
@@ -37,7 +38,7 @@ class AstVisitor implements NodeVisitor {
         const { noun, verb } = node.data;
         const action = getAction(actions, verb);
 
-        if (action) return generateFromSimpleVerbPhrase(action, noun);
+        if (action) return generateFromSimpleVerbPhrase(action, [noun]);
     }
 
     visitNestedVerbPhrase (node: NestedVerbPhrase): string {
@@ -45,18 +46,16 @@ class AstVisitor implements NodeVisitor {
         const { noun, verb } = VerbPhrase;
 
         const action = getAction(actions, verb);
-        if (action) return generateFromSimpleVerbPhrase(action, `${noun}${siblingNoun}`);
+        if (action) return generateFromSimpleVerbPhrase(action, [siblingNoun, noun]);
     }
 
     visitCompoundVerbPhrase (node: CompoundVerbPhrase): string {
-        const { noun: complement, VerbPhrase } = node.data;
-        const { noun: target, VerbPhrase: nestedVerbPhrase } = VerbPhrase;
+        const { noun: target, VerbPhrase } = node.data;
+        const { noun: complement, VerbPhrase: nestedVerbPhrase } = VerbPhrase;
         const { noun, verb } = nestedVerbPhrase;
 
         const action = getAction(actions, verb);
-        const selector = `${target}${complement}`;
-
-        if (action) return generateFromSimpleVerbPhrase(action, selector, [noun]);
+        if (action) return generateFromSimpleVerbPhrase(action, [target, complement], [noun]);
     }
 
     // empty implementations
