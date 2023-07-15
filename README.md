@@ -12,13 +12,13 @@ Usually the test developer plans the test cases in advance, before actually impl
 
 Simply write:
 
-```
+```txt
 click on button cybutton.
 ```
 
 in a test file and the generator will output:
 
-```
+```js
 describe('Test plan in <test_plan_file_name>', () => {
     it('It should test', () => {
         cy.get("button[data-cy='cybutton']").click()
@@ -28,14 +28,14 @@ describe('Test plan in <test_plan_file_name>', () => {
 
 Or
 
-```
+```txt
 cybutton should be visible
 type hello in input cyinput
 ```
 
 will be transpiled to:
 
-```
+```js
 describe('Test plan in fileName', () => {
     it('It should test', () => {
         cy.get("[data-cy='cybutton']").should('be.visible')
@@ -54,7 +54,7 @@ The test generator depends on the [Natural Language Parser npm module](). It req
 
 Each line of the test plan is supposed to be a separate command. For example:
 
-```
+```txt
 Click on button my-button
 Type hello in some-input
 Button should be visible
