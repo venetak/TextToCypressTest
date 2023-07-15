@@ -13,11 +13,10 @@ yargs.scriptName('text-to-test')
         // TODO: use lsstats to validate!
         try {
             const data = fs.readFileSync(filePath, { encoding: 'utf8' });
-            generate(data);
+            const commands = generate(data, path.basename(filePath));
         } catch (error) {
-            console.error('--------err',  error);
+            console.error(`The following error ocurred trying to generate tests from ${filePath} -- ${error}`);
         }
-        // console.log('hello', argv.name, 'welcome to yargs!');
     })
     .option('file', {
         type: 'string',

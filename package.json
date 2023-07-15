@@ -2,7 +2,7 @@
   "name": "testgenerator",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "dependencies": {
     "@babel/core": "7.21.3",
     "@babel/preset-env": "7.20.2",

@@ -1,7 +1,7 @@
 const Queries = {
     get: {
         fn: (selector: string):string => {
-            return `cy.get([data-cy='${selector}'])`;
+            return `cy.get("[data-cy='${selector}']")`;
         },
         hasParams: 1,
     },

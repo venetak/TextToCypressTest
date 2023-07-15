@@ -28,3 +28,9 @@ Use CompoundModalVerbPhraseData but pass this tree's outer most noun as compleme
 - read the file and parse each line using the NLP module; after that loop the parsed trees to generate code
 - how to differentiate between it()s
 - CLI support?
+
+# TODO
+- generate suite and spec
+- decide how to determine suite and spec names
+- add tests...
+- update readme

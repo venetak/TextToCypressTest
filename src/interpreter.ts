@@ -1,5 +1,7 @@
-import { blob } from 'stream/consumers';
 import { actions, navigation, queries } from './generators/index';
+import suite from './generators/suite';
+import spec from './generators/spec';
+
 import {
     SimpleVerbPhraseData,
     ModalVerbPhraseData,
@@ -13,9 +15,8 @@ import {
     NestedCompoundModalVerbPhraseData,
 } from './transpiler/nodeDataTypes';
 import NodeVisitor from './transpiler/nodeVisitor';
-import { 
+import {
     SimpleVerbPhrase,
-    // ModalVerbPhrase,
     NestedVerbPhrase,
     NestedModalVerbPhrase,
     CompoundModalVerbPhrase,
@@ -29,7 +30,7 @@ type AST = {
     [key: string]: ASTNode;
 };
 
-function generateElement (ast: NodeData) {
+function createElement (ast: NodeData) {
     // TODO: can this explicit check be avoided>
     // VerbPhrase
     if (SimpleVerbPhrase.isSimpleVerbPhrase(ast)) return new SimpleVerbPhrase(<SimpleVerbPhraseData>ast);
@@ -44,26 +45,16 @@ function generateElement (ast: NodeData) {
     if (Predicate.isPredicate(ast)) return new Predicate(<PredicatePhraseData>ast);
 }
 
-// TODO: pass composite
 // TODO: remove any
 function traverse (asts: any[]) {
-    const generated = asts.map(ast => {
+    const commands = asts.map(ast => {
         const readableObj = ast.toHumanReadableObject();
         const firstKey = Object.keys(readableObj)[0];
-        const element = generateElement(readableObj[firstKey]);
+        const element = createElement(readableObj[firstKey]);
         return element.accept(astVisitor);
     });
 
-    console.log(generated);
-    // recursively loop ast
-    // deduce the type of node and create a node instance
-    // TODO: !! might be more accurate to call them AST types instead of node types? !!
-    // call the accept method and save the output?
-
-    // call all visitors and implement the node type check in the visitor!
+    return commands;
 }
-
-// const interpreter = new Interpreter();
-// interpreter.
 
 export default traverse;
