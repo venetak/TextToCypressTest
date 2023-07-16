@@ -48,7 +48,7 @@ describe('Test plan in fileName', () => {
 
 ## Configuring a Dictionary
 
-The test generator depends on the [Natural Language Parser npm module](). It requires a dictionary file that specifies the words that can be recognized. Refer to [this guide]() for more information on how to create a dictionary file. For optimal results use [data-cy](https://docs.cypress.io/guides/references/best-practices#Selecting-Elements) selectors whenever possible and make sure to add them to the **nouns** array in the dictionary.
+The test generator depends on the [Natural Language Parser npm module](https://github.com/venetak/natural-language-parser). It requires a dictionary file that specifies the words that can be recognized. Refer to [this guide](https://github.com/venetak/natural-language-parser#a-dictionaryjs-file) for more information on how to create a dictionary file. For optimal results use [data-cy](https://docs.cypress.io/guides/references/best-practices#Selecting-Elements) selectors whenever possible and make sure to add them to the **nouns** array in the dictionary.
 
 ## Writing a Test Plan
 

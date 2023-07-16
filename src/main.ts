@@ -1,10 +1,11 @@
+#!/usr/bin/env node
+
 const path = require('path');
 const fs = require('fs');
 const yargs = require('yargs');
-import generate from './index'
-import { file } from '@babel/types';
+import generate from './index';
 
-yargs.scriptName('text-to-test')
+yargs.scriptName('text2test')
     .usage('$0 <cmd> [args]')
     .command('generate', 'Generate test from test plan!', function (argv) {
         // TODO: check on windows

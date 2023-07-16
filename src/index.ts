@@ -7,9 +7,10 @@ const parser = new Parser();
 import traverse from './interpreter';
 import suite from './generators/suite';
 import spec from './generators/spec';
+import { EOL } from 'os';
 
 function generate (testPlan: string, fileName: string) {
-  const textCommands: string[] = testPlan.split('\n');
+  const textCommands: string[] = testPlan.split(EOL);
   const textCommandsAST = textCommands.map(textCommand => {
     return parser.parse(textCommand);
   });
@@ -18,10 +19,11 @@ function generate (testPlan: string, fileName: string) {
 
   const suiteGen = suite(`It should test`, result.join('\n\t\t'));
   const specgen = spec(`Test plan in fileName`, suiteGen);
+  const outputFilePath = path.join(__dirname, 'testGen.js');
 
   try {
-    fs.writeFileSync(path.join(__dirname, 'testGen.js'), specgen, { encoding: 'utf8' });
-    console.log('Finished!!!')
+    fs.writeFileSync(outputFilePath, specgen, { encoding: 'utf8' });
+    console.log(`Done! Generated test saved in - ${outputFilePath}`);
   } catch(error) {
     console.error(error);
   }
