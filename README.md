@@ -4,11 +4,11 @@ The purpose of this tool is to enable automatic generation of Cypress tests from
 
 # Motivation
 
-Writing simple Cypress tests can be time consuming if you have to cover multiple similar situations. Automating the creation of simple tests can help reduce the time and energy needed to create multiple tests.
+Writing simple Cypress tests can be time consuming if you have to cover multiple similar situations. Automating the implementation of simple tests can help reduce the time and energy needed to create multiple tests.
 
 # How it Works
 
-Usually the test developer plans the test cases in advance, before actually implementing them. Describing the test using natural language is easier and more intuitive that having to write a library compatible code. The generator reads test plan written in English, parses the sentences and transpiles them to Cypress commands.
+Usually the test developer plans the test cases in advance, before actually implementing them. Describing the test using natural language is easier and more intuitive than having to write a library-compatible code. The generator reads test plan written in English, parses the sentences and transpiles them to Cypress commands.
 
 Simply write:
 
